@@ -10,4 +10,6 @@ public interface ElectionService {
     Election findById(Long id);
     Election save(Election election);
     String delete(Long id);
+
+    boolean existByElection(String nomelection);
 }

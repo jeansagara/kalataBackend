@@ -35,6 +35,7 @@ public class CandidatController {
             @RequestParam("id_election") Long id_election,
             @RequestParam("icandidat") MultipartFile icandidat,
             @RequestParam("iparti") MultipartFile iparti) throws IOException {
+
         Candidat candidat = new Candidat( nomcandidat,nomparti);
         String icandidatname = icandidat.getOriginalFilename();
         String ipartiname = iparti.getOriginalFilename();
@@ -51,8 +52,10 @@ public class CandidatController {
     }
 
     @PutMapping("/modifier/{idElection}")
-    public Candidat modifier(@PathVariable("idElection") Long idElection, @Param("nomcandidat") String nomcandidat ,
-                             @Param("nomparti") String nomparti, @Param("imagecandidat") MultipartFile imagecandidat,
+    public Candidat modifier(@PathVariable("idElection") Long idElection,
+                             @Param("nomcandidat") String nomcandidat ,
+                             @Param("nomparti") String nomparti,
+                             @Param("imagecandidat") MultipartFile imagecandidat,
                              @Param("imageparti") MultipartFile imageparti) throws IOException{
         Candidat candidat = new Candidat( nomcandidat,nomparti);
         String icandidatname = imagecandidat.getOriginalFilename();

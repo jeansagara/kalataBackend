@@ -8,36 +8,35 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "administration")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class Election {
+public class Administration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Long idelection;
-    private String nomelection;
-
-    private String images;
-    private String description;
+    private Long idAdministration;
+    private String titre;
+    private String image;
+    private String descrption;
     private String datefin;
     private String datedebut;
-    private int nbrvote;
+    private int nbredeselus;
+    private int pour;
+    private int contre;
+    private int neutre;
+    private int totalvote;
+
 
 
     @ManyToOne
     @JoinColumn(name = "id_type_vote")
     private Type_vote type_vote;
 
-    public Election(long election) {
-        idelection = election;
+    public Administration(Long idadministration) {
     }
 
-    public void setId(Long id) {
-        this.idelection = id;
+    public void setImages(String img) {
     }
-
-
 }

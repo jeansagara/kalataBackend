@@ -13,4 +13,10 @@ public class Type_voteImplement implements Type_voteService{
     public Type_vote save(Type_vote type_vote) {
         return type_voteRepository.save(type_vote);
     }
+
+    // toujours empecher de... deux fois
+    @Override
+    public boolean existByType_vote(String nom) {
+        return type_voteRepository.existsType_voteByNom(nom);
+    }
 }

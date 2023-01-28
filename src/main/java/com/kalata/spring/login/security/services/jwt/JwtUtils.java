@@ -5,6 +5,7 @@ import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,8 @@ public class JwtUtils {
 
   @Value("${bezkoder.app.jwtSecret}")
   private String jwtSecret;
-
+  @Value("jean")
+  private String jwtCookie;
   @Value("${bezkoder.app.jwtExpirationMs}")
   private int jwtExpirationMs;
 
@@ -34,6 +36,10 @@ public class JwtUtils {
         .signWith(SignatureAlgorithm.HS512, jwtSecret)
         .compact();//HS256
 
+  }
+  public ResponseCookie getCleanJwtCookie() {
+    ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
+    return cookie;
   }
 
   //recupere et retourne username de l'utilisateur à partir du token

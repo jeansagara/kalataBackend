@@ -18,54 +18,42 @@ public class UtilisateursDetails implements UserDetails {
 
   private static final long serialVersionUID = 1L;
 
-
   private Long idutilisateur;
-
   private String username;
-
-  private  String lieunaissance;
-
   private Date datenaissance;
-
-  private int age;
-
   private String sexe;
-
-  private String region;
-
-  private String pays;
-
+  private String biometrie;
+  private String telephone;
   private String email;
-
-  private String photo;
-
-  private String adresse;
+ //private String adresse;
 
   @JsonIgnore
   private String password;
 
-/*
-  GrantedAuthorityest une autorité accordée au mandant. Ces autorités sont généralement
-  des "rôles", tels que ROLE_ADMIN, ROLE_PM, ROLE_USER…
- */
+  /*
+    GrantedAuthorityest une autorité accordée au mandant. Ces autorités sont généralement
+    des "rôles", tels que ROLE_ADMIN, ROLE_PM, ROLE_USER…
+   */
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UtilisateursDetails(Long idutilisateur, String username, Date datenaissance, String lieunaissance, String email, int age, String sexe, String region, String pays, String password,
-                             Collection<? extends GrantedAuthority> authorities , String adresse,
-                             String photo) {
+  public UtilisateursDetails(Long idutilisateur,
+                             String username,
+                             Date datenaissance,
+                             String sexe,
+                             String biometrie,
+                             String telephone,
+                             String email,
+                             String password,
+                             Collection<? extends GrantedAuthority> authorities) {
     this.idutilisateur = idutilisateur;
     this.username = username;
     this.datenaissance = datenaissance;
-    this.lieunaissance = lieunaissance;
-    this.age = age;
     this.sexe = sexe;
-    this.region = region;
-    this.pays = pays;
+    this.biometrie = biometrie;
+    this.telephone = telephone;
     this.email = email;
     this.password = password;
     this.authorities = authorities;
-    this.adresse = adresse;
-    this.photo = photo;
   }
 
   //return l'user avec tous ces droits et toutes ces informations
@@ -74,27 +62,22 @@ public class UtilisateursDetails implements UserDetails {
 
     //Stream est utilisée pour traiter des collections d'objets
     List<GrantedAuthority> authorities = user.getRoles().stream()
-        .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-        .collect(Collectors.toList());
+            .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+            .collect(Collectors.toList());
 
     //on cree retourne un objet UtilisateursDetails
     return new UtilisateursDetails(
-        user.getIdutilisateur(),
-        user.getUsername(), user.getDatenaissance(),
-        user.getEmail(),
-        user.getLieunaissance(),
-        user.getAge(),
-        user.getSexe(),
-        user.getRegion(),
-        user.getPays(),
-        user.getPassword(),
-        authorities,
-        user.getQrcode(),
-        user.getPhoto()
-
+            user.getIdutilisateur(),
+            user.getUsername(),
+            user.getDatenaissance(),
+            user.getSexe(),
+            user.getTelephone(),
+            user.getBiometrie(),
+            user.getEmail(),
+            user.getPassword(),
+            authorities
     );
   }
-
   //recupere les information l'user de l'utilisateur
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -118,6 +101,7 @@ public class UtilisateursDetails implements UserDetails {
   public String getUsername() {
     return username;
   }
+
 
   @Override
   public boolean isAccountNonExpired() {

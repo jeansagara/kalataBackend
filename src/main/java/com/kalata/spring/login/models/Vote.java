@@ -22,6 +22,10 @@ public class Vote {
 
     private Long idvote;
     private Date date;
+    private String location;
+    private Double latitude;
+    private Double longitude;
+    
 
 @ManyToOne
 @JoinColumn(name = "userid")
@@ -33,5 +37,9 @@ private Utilisateurs utilisateurs;
   @ManyToOne
   @JoinColumn(name = "idcandidat")
   private Candidat candidat;
+
+  @ManyToOne
+  @JoinColumn(name = "administration_id_administration")
+  private Administration administration;
 
 }

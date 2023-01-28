@@ -17,46 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/*
-Pour aider Spring Security à savoir quand nous voulons exiger que tous les utilisateurs soient
-authentifiés, quel gestionnaire d'exceptions choisir, quel filtre et quand nous voulons qu'il fonctionne.
- Nous implémentons WebSecurityConfigurerAdapteret fournissons une configuration dans la
- configure(HttpSecurity http)
-
- */
-
-/*
-* HttpSecurity configurations pour configurer cors, csrf, la gestion de session, les règles
-*  pour les ressources protégées.
-* */
-
-/*
-* @EnableGlobalMethodSecurityassure la sécurité AOP sur les méthodes. Il permet @PreAuthorize,
-*  @PostAuthorize, il prend également en charge JSR-250 .
-* */
-
-/*
-@EnableWebSecurity permet à Spring de trouver et d'appliquer automatiquement
-la sécurité à la classe Web globale.
- */
-
-
-/*
-L'implémentation de UserDetailsService sera utilisée pour la configuration DaoAuthenticationProviderpar
- AuthenticationManagerBuilder.userDetailsService()méthode.
-
-– Nous avons également besoin d'un PasswordEncoderpour le DaoAuthenticationProvider. Si nous ne le
-spécifions pas, il utilisera du texte brut.
- */
-
-//L'accès à l'API Restful est protégé par HTTPSecurity et autorisé avec Method Security
-
-/*
-Spring Security fournit des annotations pour les vérifications d'autorisation avant et après l'invocation, le filtrage des arguments de collection soumis
-ou les valeurs de retour : @PreAuthorize, @PreFilteret .@PostAuthorize@PostFilter
-
-Pour activer les expressions de sécurité de méthode , nous utilisons l' @EnableGlobalMethodSecurityannotation
- */
 
 @Configuration
 @EnableGlobalMethodSecurity(
@@ -139,7 +99,9 @@ public class WebSecurityConfig {
             .antMatchers("/api/region").permitAll()
             .antMatchers("/api/vote").permitAll()
             .antMatchers("/api/test/**").permitAll()
-            .antMatchers("/api/candidats").permitAll()
+            .antMatchers("/api/projetdelois/**").permitAll()
+            .antMatchers("/api/voteprojet/**").permitAll()
+
         .anyRequest().authenticated();
            // .and()
             //.oauth2Login();

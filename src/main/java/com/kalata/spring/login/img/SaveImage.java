@@ -12,12 +12,10 @@ public class SaveImage {
     public static String localhost = "http://127.0.0.1/";
     public static String serveruser = localhost + "kalata/img/";
     public static String userLocation = "C:/xampp/htdocs/kalata/img/";
-
     public static String save(MultipartFile file, String fileName) {
         String src = "";
         String server = "";
         String location = "";
-
         location = userLocation;
         server = serveruser;
 
@@ -37,7 +35,6 @@ public class SaveImage {
             e.printStackTrace();
             src = null;
         }
-
         return src;
     }
 }

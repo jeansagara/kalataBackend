@@ -1,9 +1,7 @@
 package com.kalata.spring.login.security.services;
 
 import com.kalata.spring.login.models.Candidat;
-import com.kalata.spring.login.payload.response.MessageResponse;
 import com.kalata.spring.login.repository.CandidatRepository;
-import com.twilio.rest.api.v2010.account.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;

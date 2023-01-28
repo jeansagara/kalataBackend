@@ -55,15 +55,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         //recupere username de l'utilisateur à partir du token
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
-        /*
-        recuperer les details de l'utilisateur à partir de son token à savoir:
-          String getPassword();
-          String getUsername();
-          boolean isAccountNonExpired();
-          boolean isAccountNonLocked();
-          boolean isCredentialsNonExpired();
-          boolean isEnabled();
-         */
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
 

@@ -33,13 +33,11 @@ public class UtilisateursDetailsServiceImpl implements UserDetailsService {
   //recupere les details du collaborateur
   @Override
   @Transactional
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Utilisateurs user = utilisateursRepository.findByUsername(username)
-        .orElseThrow(() -> new UsernameNotFoundException("collaborateur non trouvé: " + username));
-
+  public UserDetails loadUserByUsername(String biometrieOrTelephone) throws UsernameNotFoundException {
+    Utilisateurs user = utilisateursRepository.findByBiometrieOrTelephoneOrUsername(biometrieOrTelephone,biometrieOrTelephone,biometrieOrTelephone)
+        .orElseThrow(() -> new UsernameNotFoundException("collaborateur non trouvé: " + biometrieOrTelephone));
     return UtilisateursDetails.build(user);
   }
-
 
 
 

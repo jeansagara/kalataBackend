@@ -39,4 +39,9 @@ public class ElectionServiceImpl implements ElectionService {
             return"Election supprimé";
 
         }
+
+    @Override
+    public boolean existByElection(String nomelection) {
+        return electionRepository.existsElectionByNomelection(nomelection);
+    }
 }

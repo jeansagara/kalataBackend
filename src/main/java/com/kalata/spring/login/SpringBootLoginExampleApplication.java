@@ -73,10 +73,10 @@ public class SpringBootLoginExampleApplication implements CommandLineRunner {
 			Set<Role> roles = new HashSet<>();
 			Role role = roleRepository.findByName(ROLE_ADMIN);
 			roles.add(role);
-			Date datenaissance =  new Date(2022, 11, 12);
+			Date datenaissance =  new Date(2022, 11, 11);
 			Date dt = new Date(23,10,20);
 
-			Utilisateurs u1 = new Utilisateurs("jean", "jeansagara272@gmail.com",datenaissance,"Bamako", encoder.encode("sagara"),  23, "homme","admin.png",  "1234567", "Mali","Bamako" );
+			Utilisateurs u1 = new Utilisateurs(null,"jean", "jeansagara272@gmail.com",encoder.encode("sagara"),roles,dt, "homme", "1234567890","");
 			u1.setRoles(roles);
 			utilisateursRepository.save(u1);
 

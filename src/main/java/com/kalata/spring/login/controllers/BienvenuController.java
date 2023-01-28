@@ -20,8 +20,6 @@ public class BienvenuController {
 
   private static final Logger log = LoggerFactory.getLogger(BienvenuController.class);
 
-
-
   @GetMapping("/user")
   @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   public String allAccess() {

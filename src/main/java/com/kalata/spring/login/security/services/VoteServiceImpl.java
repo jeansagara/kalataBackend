@@ -1,15 +1,9 @@
 package com.kalata.spring.login.security.services;
 
 
-import com.kalata.spring.login.models.Candidat;
-import com.kalata.spring.login.models.Election;
-import com.kalata.spring.login.models.Utilisateurs;
-import com.kalata.spring.login.models.Vote;
+import com.kalata.spring.login.models.*;
 import com.kalata.spring.login.payload.response.MessageResponse;
-import com.kalata.spring.login.repository.CandidatRepository;
-import com.kalata.spring.login.repository.ElectionRepository;
-import com.kalata.spring.login.repository.UtilisateursRepository;
-import com.kalata.spring.login.repository.VoteRepository;
+import com.kalata.spring.login.repository.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +20,15 @@ public class VoteServiceImpl implements VoteService{
 
     @Autowired
     VoteRepository voteRepository;
-
     @Autowired
     UtilisateursRepository utilisateursRepository;
-
     @Autowired
     CandidatRepository candidatRepository;
-
     @Autowired
     ElectionRepository electionRepository;
 
+    @Autowired
+    AdministrationRepository administrationRepository;
     @Override
     public MessageResponse creer(Vote vote) {
 
@@ -50,10 +43,7 @@ public class VoteServiceImpl implements VoteService{
             MessageResponse message = new MessageResponse("Vote ajouter avec succès");
             return message;
         }
-
-
     }
-
 
 
     @Override
@@ -74,10 +64,6 @@ public class VoteServiceImpl implements VoteService{
 
     @Override
     public MessageResponse creerVote(Long id_candidat, Long idelection, Utilisateurs idutilisateur) {
-        // Vote vote = new Vote();
-       /* Utilisateurs utils = utilisateursRepository.findByIdutilisateur(id);
-        vote.setUtilisateurs(utils);
-        */
         Vote vote = new Vote();
         Candidat candidat = candidatRepository.findByIdcandidat(id_candidat);
         vote.setCandidat(candidat);
@@ -94,13 +80,8 @@ public class VoteServiceImpl implements VoteService{
         for (Vote utilisateurvote : listedevote){
 
             System.out.println("zreegfgrthgttggtg"+vote.getCandidat());
-
-          /*  if (utilisateurvote.getUtilisateurs().equals(utilisateurs)) utilisateurs = vote.getUtilisateurs();{
-             // if(utilisateursRepository.findById(id) == null){
-                MessageResponse message = new MessageResponse("Vous avez déja voté pour cette élection");
-                return message;
-            }*/
        }
+
         System.out.println("Les users "+use);
         if (!use.isPresent()) {
             voteRepository.save(vote);
@@ -124,5 +105,44 @@ public class VoteServiceImpl implements VoteService{
 
 
 
+    }
+
+    @Override
+    public MessageResponse voteprojetloie( Long idAdministration, Utilisateurs idutilisateur, int vote)  {
+        Vote v = new Vote();
+        Administration administration = administrationRepository.findByIdAdministration(idAdministration);
+        System.out.println("nombreTotal");
+        System.err.println(administration.getTotalvote());
+        System.out.println("nombre elue");
+        System.err.println(administration.getNbredeselus());
+        if (administration.getTotalvote() >= administration.getNbredeselus()){
+            return new MessageResponse("Le nombre de candidat pouvant votée est atteint");
+        }else {
+            v.setAdministration(administration);
+            v.setUtilisateurs(idutilisateur);
+            v.setDate(new Date());
+
+            Optional<Vote> use = voteRepository.findByUtilisateurs(idutilisateur);
+            System.out.println("zreegfgrthgttggtg"+vote);
+
+            System.out.println("Les users "+use);
+            if (!use.isPresent()) {
+                voteRepository.save(v);
+                administration.setTotalvote(administration.getTotalvote() + 1);
+                if (vote == 1) {
+                    administration.setPour(administration.getPour() + 1);
+                } else if (vote == -1) {
+                    administration.setContre(administration.getContre() + 1);
+                } else if (vote == 0) {
+                    administration.setNeutre(administration.getNeutre() + 1);
+                }
+                administrationRepository.save(administration);
+                MessageResponse message = new MessageResponse("Bravos vous avez voté");
+                return message;
+            } else {
+                MessageResponse message = new MessageResponse("Vous avez déjà voté pour cette administration");
+                return message;
+            }
+        }
     }
 }

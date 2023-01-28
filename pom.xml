@@ -130,6 +130,17 @@
 		<!-- les dependance pour l'envoie SMS/OTP -->
 
 
+		<!-- les dependance pour la geolocalisation -->
+		<dependency>
+			<groupId>com.google.maps</groupId>
+			<artifactId>google-maps-services</artifactId>
+			<version>2.1.2</version>
+		</dependency>
+
+		<!-- les dependance pour geolocalisation -->
+
+
+
 
 
 
@@ -159,41 +170,19 @@
 			<artifactId>commons-lang3</artifactId>
 
 		</dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.2</version>
+        </dependency>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

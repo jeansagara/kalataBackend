@@ -10,34 +10,33 @@ public class JwtResponse {
     private String type = "Bearer";
     private Long id;
     private String username;
-    private Integer age;
+
     private String sexe;
-    private String region;
-    private String pays;
+
+
     private String email;
     private String adresse;
-    private String photo;
-    private String nomcomplet;
+
     private List<String> roles;
 
-    public JwtResponse(String accessToken, Long id, String username, String email, int age, String sexe, String region, String pays, List<String> roles, String adresse,
-                       String photo, String nomcomplet) {
+   /* public JwtResponse(String accessToken, Long id, String username, String email, String sexe, String adresse,  List<String> roles
+                       ) {
         this.token = accessToken;
         this.id = id;
+        this.us
+        this.email=email;
         this.username = username;
-        this.email = email;
-        this.age = age;
+        this.adresse = adresse;
+
         this.sexe = sexe;
-        this.region = region;
-        this.pays = pays;
+
+
         this.email = email;
         this.roles = roles;
-        this.adresse = adresse;
-        this.photo = photo;
-        this.nomcomplet = nomcomplet;
-    }
 
-    public JwtResponse(String accessToken, Long id, String username, Integer age, String sexe, String email, String region, String pays, List<String> roles, String adresse, String nomcomplet, String photo) {
+    }*/
+
+    /*public JwtResponse(String accessToken, Long id, String username, Integer age, String sexe, String email, String region, String pays, List<String> roles, String adresse, String nomcomplet, String photo) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
@@ -63,14 +62,13 @@ public class JwtResponse {
         this.id = id;
         this.username = username;
         this.email = email;
-        this.age = age;
+
         this.sexe = sexe;
-        this.region = region;
-        this.pays = pays;
+
         this.email = email;
         this.roles = roles;
         this.adresse = adresse;
-        this.photo = photo;
+
     }
 
     public String getAccessToken() {
@@ -111,9 +109,79 @@ public class JwtResponse {
 
     public void setUsername(String username) {
         this.username = username;
+    }*/
+
+    public JwtResponse(String token, Long id, String username, String sexe, String email, List<String> roles) {
+        this.token = token;
+        this.id = id;
+        this.username = username;
+        this.sexe = sexe;
+        this.email = email;
+        this.adresse = adresse;
+        this.roles = roles;
     }
 
     public List<String> getRoles() {
         return roles;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getSexe() {
+        return sexe;
+    }
+
+    public void setSexe(String sexe) {
+        this.sexe = sexe;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }
