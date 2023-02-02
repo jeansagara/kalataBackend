@@ -1,6 +1,5 @@
 package com.kalata.spring.login.models;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,11 +18,13 @@ public class Election {
 
     private Long idelection;
     private String nomelection;
-
     private String images;
     private String description;
+    private String soustitre;
     private String datefin;
     private String datedebut;
+
+    private Boolean status;
     private int nbrvote;
 
 

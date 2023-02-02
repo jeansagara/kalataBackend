@@ -8,8 +8,9 @@ public interface ElectionService {
 
     List<Election> findAll();
     Election findById(Long id);
+    Election getById(Long id);
     Election save(Election election);
     String delete(Long id);
+    List<Election> getElectionsByTypeVoteId(Long typeVoteId);
 
-    boolean existByElection(String nomelection);
 }

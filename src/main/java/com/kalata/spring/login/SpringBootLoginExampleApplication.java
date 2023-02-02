@@ -76,7 +76,7 @@ public class SpringBootLoginExampleApplication implements CommandLineRunner {
 			Date datenaissance =  new Date(2022, 11, 11);
 			Date dt = new Date(23,10,20);
 
-			Utilisateurs u1 = new Utilisateurs(null,"jean", "jeansagara272@gmail.com",encoder.encode("sagara"),roles,dt, "homme", "1234567890","");
+			Utilisateurs u1 = new Utilisateurs(null,"jean", "jeansagara272@gmail.com",encoder.encode("sagara"),roles,dt, "homme", "1234567890","99300099");
 			u1.setRoles(roles);
 			utilisateursRepository.save(u1);
 

@@ -43,7 +43,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
  */
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+  protected void doFilterInternal(HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  FilterChain filterChain)
       throws ServletException, IOException {
     try {
       //analyse et retourne le jwt si son format est correcte sinon il retourne null

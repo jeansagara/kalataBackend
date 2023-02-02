@@ -31,12 +31,16 @@ public class Candidat {
     @ManyToOne
     private Election election;
 
-    public Candidat(String nomcandidat, String nomparti) {
+    public Candidat(String nomcandidat,
+                    String nomparti) {
         this.nomcandidat=nomcandidat;
         this.nomparti=nomparti;
     }
 
-    public Candidat(String nomcandidat, String nomparti, String imagecandidat, String imageparti) {
+    public Candidat(String nomcandidat,
+                    String nomparti,
+                    String imagecandidat,
+                    String imageparti) {
         this.nomcandidat=nomcandidat;
         this.nomparti=nomparti;
         this.imagecandidat=imagecandidat;

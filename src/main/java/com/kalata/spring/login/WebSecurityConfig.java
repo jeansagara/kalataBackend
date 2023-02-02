@@ -93,7 +93,9 @@ public class WebSecurityConfig {
             .antMatchers("/api/auth/**").permitAll()
             .antMatchers("/api/bienvenue/**").permitAll()
             .antMatchers("/api/roles/**").permitAll()
-            .antMatchers("/api/typevote").permitAll()
+            .antMatchers("/**").permitAll()
+
+          //  .antMatchers("/api/typevote").permitAll()
             .antMatchers("/api/elections").permitAll()
             .antMatchers("/api/pays").permitAll()
             .antMatchers("/api/region").permitAll()
@@ -101,8 +103,11 @@ public class WebSecurityConfig {
             .antMatchers("/api/test/**").permitAll()
             .antMatchers("/api/projetdelois/**").permitAll()
             .antMatchers("/api/voteprojet/**").permitAll()
+            .antMatchers("/api/candidats/**").permitAll()
+            .antMatchers("/api/projetdelois/**").permitAll()
 
-        .anyRequest().authenticated();
+
+            .anyRequest().authenticated();
            // .and()
             //.oauth2Login();
    // http.formLogin();

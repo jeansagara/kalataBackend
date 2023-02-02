@@ -27,8 +27,6 @@ public class UtilisateurServiceImpl implements  UtitlisateurService{
 
     @Autowired
     private JavaMailSender mailSender;
-
-
    // @Autowired
     //PasswordEncoder passwordEncoder;
 
@@ -39,15 +37,11 @@ public class UtilisateurServiceImpl implements  UtitlisateurService{
     }
 
 
-
     @Override
     public Utilisateurs saveUtilisateur(Utilisateurs utilisateurs) {
          utilisateursRepository.save(utilisateurs);
         mailSender.send(emailConstructor.constructNewUserEmail(utilisateurs));
         return  utilisateurs;
-
-
-
     }
 
     @Override
@@ -58,7 +52,5 @@ public class UtilisateurServiceImpl implements  UtitlisateurService{
         if(utilisateurs != null){
             utilisateurs.get().getRoles().add(role);
         }
-
-
     }
 }

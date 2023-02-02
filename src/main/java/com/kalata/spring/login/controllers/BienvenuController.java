@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8100", maxAge = 3600,allowCredentials = "true")
 @RestController
 @RequestMapping("/api/bienvenue")
 public class BienvenuController {

@@ -68,42 +68,51 @@ public class VoteServiceImpl implements VoteService{
         Candidat candidat = candidatRepository.findByIdcandidat(id_candidat);
         vote.setCandidat(candidat);
         Election election = electionRepository.findByIdelection(idelection);
-        vote.setElection(new Election(idelection));
-        vote.setUtilisateurs(idutilisateur);
-        vote.setDate(new Date());
+        if (election.getStatus()==true){
 
 
-        List<Vote> listedevote = voteRepository.findByElection(vote.getElection());
+
+            vote.setElection(new Election(idelection));
+            vote.setUtilisateurs(idutilisateur);
+            vote.setDate(new Date());
+
+
+            List<Vote> listedevote = voteRepository.findByElection(vote.getElection());
 //        Utilisateurs utilisateurs = null;
-        Optional<Vote> use = voteRepository.findByUtilisateurs(idutilisateur);
-        System.out.println("zreegfgrthgttggtg"+vote);
-        for (Vote utilisateurvote : listedevote){
+            Optional<Vote> use = voteRepository.findByUtilisateurs(idutilisateur);
+            System.out.println("zreegfgrthgttggtg"+vote);
+            for (Vote utilisateurvote : listedevote){
 
-            System.out.println("zreegfgrthgttggtg"+vote.getCandidat());
-       }
-
-        System.out.println("Les users "+use);
-        if (!use.isPresent()) {
-            voteRepository.save(vote);
-            candidat.setVoix(candidat.getVoix() + 1);
-            election.setNbrvote(election.getNbrvote()+1);
-            electionRepository.save(election);
-            List<Candidat> candidats = candidatRepository.findAll();
-            for (Candidat c : candidats) {
-                c = candidatRepository.findByIdcandidat(c.getIdcandidat());
-                c.setPourcentage(((float)c.getVoix()/election.getNbrvote())*100);
-                candidatRepository.save(c);
+                System.out.println("zreegfgrthgttggtg"+vote.getCandidat());
             }
-            candidatRepository.save(candidat);
 
-            MessageResponse message = new MessageResponse("Bravos vous avez voté");
-            return message;
-        } else {
-            MessageResponse message = new MessageResponse("Vous avez déja voté pour cette élection");
+            System.out.println("Les users "+use);
+            if (!use.isPresent()) {
+                voteRepository.save(vote);
+                candidat.setVoix(candidat.getVoix() + 1);
+                election.setNbrvote(election.getNbrvote()+1);
+                electionRepository.save(election);
+                List<Candidat> candidats = candidatRepository.findAll();
+                for (Candidat c : candidats) {
+                    c = candidatRepository.findByIdcandidat(c.getIdcandidat());
+                    c.setPourcentage(((float)c.getVoix()/election.getNbrvote())*100);
+                    candidatRepository.save(c);
+                }
+                candidatRepository.save(candidat);
+
+                MessageResponse message = new MessageResponse("Bravos vous avez voté");
+                return message;
+            } else {
+                MessageResponse message = new MessageResponse("Vous avez déja voté pour cette élection");
+                return message;
+            }
+
+
+
+        }else {
+            MessageResponse message = new MessageResponse("Désolée l'élection est fermé");
             return message;
         }
-
-
 
     }
 
@@ -129,10 +138,13 @@ public class VoteServiceImpl implements VoteService{
             if (!use.isPresent()) {
                 voteRepository.save(v);
                 administration.setTotalvote(administration.getTotalvote() + 1);
+                // pour donner sa voix de vote POUR affecter la valeur===> (1)
                 if (vote == 1) {
                     administration.setPour(administration.getPour() + 1);
+                    // pour donner sa voix de vote CONTRE affecter la valeur===> (-1)
                 } else if (vote == -1) {
                     administration.setContre(administration.getContre() + 1);
+                    // pour donner sa voix de vote NEUTRE affecter la valeur===> (0)
                 } else if (vote == 0) {
                     administration.setNeutre(administration.getNeutre() + 1);
                 }
@@ -140,7 +152,7 @@ public class VoteServiceImpl implements VoteService{
                 MessageResponse message = new MessageResponse("Bravos vous avez voté");
                 return message;
             } else {
-                MessageResponse message = new MessageResponse("Vous avez déjà voté pour cette administration");
+                MessageResponse message = new MessageResponse("Vous avez déjà voté pour cet projet de loi");
                 return message;
             }
         }

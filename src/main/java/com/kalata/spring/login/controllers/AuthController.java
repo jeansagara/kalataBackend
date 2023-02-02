@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,15 +34,18 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:8100", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:8100", maxAge = 3600,allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth")
 @ToString
@@ -121,15 +125,24 @@ public class AuthController {
                                                @Param("biometrie") String biometrie,
                                                @Param("telephone") String telephone,
                                                @Param("sexe") String sexe,
-                                               @Param("datenaissance") Date datenaissance,
+                                               @Param("datenaissance") String datenaissance,
                                                @Param("email") String email,
                                                @Param("password") String password,
                                                @Param("role") String role
 
-  ) throws IOException {
+  ) throws IOException, ParseException {
+
+    Date dateFormat = new SimpleDateFormat("yyyy-MM-dd").parse(datenaissance);
+    //Date date = dateFormat.parse(datenaissance);
+
+    System.out.println(dateFormat);
 
     //chemin de stockage des images
     String url = "C:/Users/jssagara/Pictures/springimg";
+
+    System.out.println("email: "+ email);
+    System.out.println("Date 1: "+ datenaissance);
+    System.out.println("Date 2: "+ dateFormat);
 
 
 /*    //recupere le nom de l'image
@@ -151,7 +164,7 @@ public class AuthController {
     signUpRequest.setBiometrie(biometrie);
     signUpRequest.setTelephone(telephone);
     signUpRequest.setEmail(email);
-    signUpRequest.setDatenaissance(new Date());
+    signUpRequest.setDatenaissance(dateFormat);
     signUpRequest.setPassword(password);
     signUpRequest.setRole(rolesvenu);
 
@@ -176,7 +189,7 @@ public class AuthController {
 
     utilisateurs.setUsername(signUpRequest.getUsername());
     utilisateurs.setEmail(signUpRequest.getEmail());
-    utilisateurs.setPassword(encoder.encode(signUpRequest.getPassword()));
+    utilisateurs.setPassword(encoder.encode(password));
     utilisateurs.setSexe(signUpRequest.getSexe());
     utilisateurs.setBiometrie(signUpRequest.getBiometrie());
     utilisateurs.setTelephone(signUpRequest.getTelephone());
@@ -224,7 +237,7 @@ public class AuthController {
 
   }
 
-
+/*
   @PostMapping("/electeur")
   @PreAuthorize("hasRole('ADMIN')")
   public List<Utilisateurs> importer(@RequestParam("file") MultipartFile file) throws IOException {
@@ -235,6 +248,9 @@ public class AuthController {
     }
     return electeurs;
   }
+
+ */
+
 
 }
 

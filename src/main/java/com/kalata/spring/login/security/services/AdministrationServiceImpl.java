@@ -50,15 +50,8 @@ public class AdministrationServiceImpl implements AdministrationService {
 
     @Override
     public Administration save(Administration administration) {
+        administration.setStatus(true);
         return administrationRepository.save(administration);
     }
 
-
-
-
-    // toujours empecher de... deux fois
-    @Override
-    public boolean existByTitre(String titre) {
-        return administrationRepository.existsAdministrationByTitre(titre);
-    }
 }

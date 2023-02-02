@@ -1,11 +1,15 @@
 package com.kalata.spring.login.security.services;
 
 import com.kalata.spring.login.models.Candidat;
+import com.kalata.spring.login.models.Election;
 import com.kalata.spring.login.repository.CandidatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Service
@@ -13,6 +17,7 @@ public class CandidatServiceImpl implements CandidatService {
 
     @Autowired
   CandidatRepository candidatRepository;
+
 
     @Override
     public List<Candidat> lister() {
@@ -49,4 +54,7 @@ public class CandidatServiceImpl implements CandidatService {
         return"Candidat supprimé";
 
     }
+
+
+
 }

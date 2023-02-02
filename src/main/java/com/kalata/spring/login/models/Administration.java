@@ -1,6 +1,5 @@
 package com.kalata.spring.login.models;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "administration")
+@Table(name = "projetdelois")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,11 +26,13 @@ public class Administration {
     private int contre;
     private int neutre;
     private int totalvote;
+    private Boolean status;
+
 
 
 
     @ManyToOne
-    @JoinColumn(name = "id_type_vote")
+    @JoinColumn(name = "id_typevote")
     private Type_vote type_vote;
 
     public Administration(Long idadministration) {

@@ -1,8 +1,5 @@
 package com.kalata.spring.login.security.services;
 
-
-
-
 import com.kalata.spring.login.models.Utilisateurs;
 import com.kalata.spring.login.repository.RoleRepository;
 import com.kalata.spring.login.repository.UtilisateursRepository;

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface Type_voteRepository extends JpaRepository<Type_vote, Long> {
     //empecher de... deux fois
     boolean existsType_voteByNom(String nom);
+
 }

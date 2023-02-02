@@ -1,6 +1,7 @@
 package com.kalata.spring.login.security.services;
 
 import com.kalata.spring.login.models.Administration;
+import com.kalata.spring.login.models.Candidat;
 
 
 import java.util.List;
@@ -14,6 +15,5 @@ public interface AdministrationService {
     Administration save(Administration administration);
 
 
-    // toujours empecher de... deux fois
-    boolean existByTitre(String titre);
+
 }

@@ -3,23 +3,30 @@ package com.kalata.spring.login.controllers;
 import com.kalata.spring.login.img.SaveImage;
 import com.kalata.spring.login.models.Candidat;
 import com.kalata.spring.login.models.Election;
+import com.kalata.spring.login.repository.CandidatRepository;
 import com.kalata.spring.login.security.services.CandidatService;
 import lombok.ToString;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8100", maxAge = 3600,allowCredentials = "true")
+
 @ToString
 @RequestMapping("/api/candidats")
+
 public class CandidatController {
+    private CandidatRepository candidatRepository;
+
 
     private final CandidatService candidatService;
     public CandidatController(CandidatService candidatService) {
@@ -27,14 +34,19 @@ public class CandidatController {
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping("/ajouter")
-    public  Candidat create(
+    public String create(
             @RequestParam("nomcandidat") String nomcandidat,
             @RequestParam("nomparti") String nomparti,
             @RequestParam("id_election") Long id_election,
             @RequestParam("icandidat") MultipartFile icandidat,
             @RequestParam("iparti") MultipartFile iparti) throws IOException {
+
+        // Methode mallé
+/*        if (candidatRepository.existsElectionByNomcandidat(nomcandidat)) {
+            return "Ce nom existe deja";
+        }*/
 
         Candidat candidat = new Candidat( nomcandidat,nomparti);
         String icandidatname = icandidat.getOriginalFilename();
@@ -42,10 +54,11 @@ public class CandidatController {
         candidat.setElection(new Election(id_election));
         candidat.setImagecandidat(SaveImage.save(icandidat,icandidatname));
         candidat.setImageparti(SaveImage.save(iparti,ipartiname));
-        return candidatService.ajout(candidat);
+         candidatService.ajout(candidat);
+        return"Candidat ajouté avec succès";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping("/afficher")
     public  List<Candidat> lister(){
         return candidatService.lister();
@@ -67,12 +80,23 @@ public class CandidatController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/Supprimer/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+    @DeleteMapping("/supprimer/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         candidatService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body("Candidat supprimé avec succès.");
     }
 
+    @GetMapping("/classement")
+    public List<Candidat> classement() {
+        List<Candidat> candidates = candidatService.lister();
+        Collections.sort(candidates, new Comparator<Candidat>() {
+            @Override
+            public int compare(Candidat c1, Candidat c2) {
+                return Integer.compare(c2.getVoix(), c1.getVoix());
+            }
+        });
+        return candidates;
+    }
 
 }

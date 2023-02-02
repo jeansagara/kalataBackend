@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface ElectionRepository extends JpaRepository<Election, Long> {
 
     Election findByIdelection(Long idelection);
+
     //empecher de... deux fois
     boolean existsElectionByNomelection(String nomelection);
 }

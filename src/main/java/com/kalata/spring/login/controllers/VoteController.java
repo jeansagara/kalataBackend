@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8100", maxAge = 3600,allowCredentials = "true")
+
 @RestController
 @RequestMapping("/api/vote")
 public class VoteController {
@@ -24,21 +26,19 @@ public class VoteController {
         return voteService.creer(vote);
     }
 
-
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/afficher")
     public List<Vote> list() {
         return voteService.afficher();
     }
 
-
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/Supprimer/{Id}")
+    @DeleteMapping("/supprimer/{Id}")
     public String Supprimer(@PathVariable Long Id) {
-
         return voteService.supprimer(Id);
     }
 
+    // VOTEE POUR UN CANDIDAT DANS UNE ELECTION
     @PreAuthorize("hasRole('ELECTEUR')")
     @PostMapping("/creervote/{id_candidat}/{idelection}/{idutilisateur}")
     public MessageResponse creerVote(
@@ -51,6 +51,7 @@ public class VoteController {
         return voteService.creerVote(id_candidat, idelection, idutilisateur);
     }
 
+    // VOTEE POUR UN PROJET DE LOI SELON LES VOIX (Pour, Contre, Contre)
     @PostMapping("/voteprojets/{idAdministration}/{idutilisateur}/{vote}")
     public MessageResponse VoteAdministration(     @PathVariable Long idAdministration,
                                                    @PathVariable("idutilisateur") Utilisateurs idutilisateur,
@@ -59,6 +60,20 @@ public class VoteController {
         vp.setUtilisateurs(idutilisateur);
         return voteService.voteprojetloie(idAdministration,idutilisateur,vote);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
