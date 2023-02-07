@@ -39,8 +39,8 @@ public class VoteController {
     }
 
     // VOTEE POUR UN CANDIDAT DANS UNE ELECTION
-    @PreAuthorize("hasRole('ELECTEUR')")
-    @PostMapping("/creervote/{id_candidat}/{idelection}/{idutilisateur}")
+  //@PreAuthorize("hasRole('ELECTEUR')")
+        @PostMapping("/creervote/{idutilisateur}/{idelection}/{id_candidat}")
     public MessageResponse creerVote(
             @PathVariable Long id_candidat,
             @PathVariable Long idelection,

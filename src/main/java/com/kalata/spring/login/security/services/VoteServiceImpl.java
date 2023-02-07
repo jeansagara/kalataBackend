@@ -35,7 +35,7 @@ public class VoteServiceImpl implements VoteService{
 
         if(voteRepository.findById(vote.getIdvote()) != null){
 
-            MessageResponse message = new MessageResponse("Ce vote existe déja");
+            MessageResponse message = new MessageResponse("Désoler ce vote existe déja");
             return message;
         }
         else{
@@ -79,41 +79,65 @@ public class VoteServiceImpl implements VoteService{
 
             List<Vote> listedevote = voteRepository.findByElection(vote.getElection());
 //        Utilisateurs utilisateurs = null;
-            Optional<Vote> use = voteRepository.findByUtilisateurs(idutilisateur);
+            List<Vote> use1 = voteRepository.findByUtilisateurs(idutilisateur);
             System.out.println("zreegfgrthgttggtg"+vote);
             for (Vote utilisateurvote : listedevote){
 
                 System.out.println("zreegfgrthgttggtg"+vote.getCandidat());
             }
 
-            System.out.println("Les users "+use);
-            if (!use.isPresent()) {
-                voteRepository.save(vote);
-                candidat.setVoix(candidat.getVoix() + 1);
-                election.setNbrvote(election.getNbrvote()+1);
-                electionRepository.save(election);
-                List<Candidat> candidats = candidatRepository.findAll();
-                for (Candidat c : candidats) {
-                    c = candidatRepository.findByIdcandidat(c.getIdcandidat());
-                    c.setPourcentage(((float)c.getVoix()/election.getNbrvote())*100);
-                    candidatRepository.save(c);
+            System.out.println("Les users "+use1.size());
+            if (use1.size() == 2){
+                MessageResponse message = new MessageResponse("Désoler vous avez déja voté");
+                return message;
+            }else {
+                if (use1.size() == 0){
+                    voteRepository.save(vote);
+                    candidat.setVoix(candidat.getVoix() + 1);
+                    election.setNbrvote(election.getNbrvote()+1);
+                    electionRepository.save(election);
+                    List<Candidat> candidats = candidatRepository.findAll();
+                    for (Candidat c : candidats) {
+                        c = candidatRepository.findByIdcandidat(c.getIdcandidat());
+                        c.setPourcentage(((float)c.getVoix()/election.getNbrvote())*100);
+                        candidatRepository.save(c);
+                    }
+                    candidatRepository.save(candidat);
+
+                    MessageResponse message = new MessageResponse("Bravos vous avez voté");
+                    return message;
+                }else {
+                    for (Vote use: use1){
+
+                        if (use.getElection() == null) {
+                            voteRepository.save(vote);
+                            candidat.setVoix(candidat.getVoix() + 1);
+                            election.setNbrvote(election.getNbrvote()+1);
+                            electionRepository.save(election);
+                            List<Candidat> candidats = candidatRepository.findAll();
+                            for (Candidat c : candidats) {
+                                c = candidatRepository.findByIdcandidat(c.getIdcandidat());
+                                c.setPourcentage(((float)c.getVoix()/election.getNbrvote())*100);
+                                candidatRepository.save(c);
+                            }
+                            candidatRepository.save(candidat);
+
+                            MessageResponse message = new MessageResponse("Bravos vous avez voté");
+                            return message;
+                        } else {
+                            MessageResponse message = new MessageResponse("Désoler vous avez déja voté");
+                            return message;
+                        }
+                    }
                 }
-                candidatRepository.save(candidat);
 
-                MessageResponse message = new MessageResponse("Bravos vous avez voté");
-                return message;
-            } else {
-                MessageResponse message = new MessageResponse("Vous avez déja voté pour cette élection");
-                return message;
             }
-
-
 
         }else {
             MessageResponse message = new MessageResponse("Désolée l'élection est fermé");
             return message;
         }
-
+        return null;
     }
 
     @Override
@@ -131,30 +155,58 @@ public class VoteServiceImpl implements VoteService{
             v.setUtilisateurs(idutilisateur);
             v.setDate(new Date());
 
-            Optional<Vote> use = voteRepository.findByUtilisateurs(idutilisateur);
+            List<Vote> use1 = voteRepository.findByUtilisateurs(idutilisateur);
             System.out.println("zreegfgrthgttggtg"+vote);
 
-            System.out.println("Les users "+use);
-            if (!use.isPresent()) {
-                voteRepository.save(v);
-                administration.setTotalvote(administration.getTotalvote() + 1);
-                // pour donner sa voix de vote POUR affecter la valeur===> (1)
-                if (vote == 1) {
-                    administration.setPour(administration.getPour() + 1);
-                    // pour donner sa voix de vote CONTRE affecter la valeur===> (-1)
-                } else if (vote == -1) {
-                    administration.setContre(administration.getContre() + 1);
-                    // pour donner sa voix de vote NEUTRE affecter la valeur===> (0)
-                } else if (vote == 0) {
-                    administration.setNeutre(administration.getNeutre() + 1);
+            System.out.println("Les users "+use1);
+
+            if (use1.size() == 2){
+                MessageResponse message = new MessageResponse("Désoler vous avez déjà voté");
+                return message;
+            }else {
+                if (use1.size() == 0){
+                    voteRepository.save(v);
+                    administration.setTotalvote(administration.getTotalvote() + 1);
+                    // pour donner sa voix de vote POUR affecter la valeur===> (1)
+                    if (vote == 1) {
+                        administration.setPour(administration.getPour() + 1);
+                        // pour donner sa voix de vote CONTRE affecter la valeur===> (-1)
+                    } else if (vote == -1) {
+                        administration.setContre(administration.getContre() + 1);
+                        // pour donner sa voix de vote NEUTRE affecter la valeur===> (0)
+                    } else if (vote == 0) {
+                        administration.setNeutre(administration.getNeutre() + 1);
+                    }
+                    administrationRepository.save(administration);
+                    MessageResponse message = new MessageResponse("Bravos vous avez voté");
+                    return message;
+                }else {
+                    for (Vote use: use1){
+                        if (use == null || use.getAdministration() == null) {
+                            voteRepository.save(v);
+                            administration.setTotalvote(administration.getTotalvote() + 1);
+                            // pour donner sa voix de vote POUR affecter la valeur===> (1)
+                            if (vote == 1) {
+                                administration.setPour(administration.getPour() + 1);
+                                // pour donner sa voix de vote CONTRE affecter la valeur===> (-1)
+                            } else if (vote == -1) {
+                                administration.setContre(administration.getContre() + 1);
+                                // pour donner sa voix de vote NEUTRE affecter la valeur===> (0)
+                            } else if (vote == 0) {
+                                administration.setNeutre(administration.getNeutre() + 1);
+                            }
+                            administrationRepository.save(administration);
+                            MessageResponse message = new MessageResponse("Bravos vous avez voté");
+                            return message;
+                        } else {
+                            MessageResponse message = new MessageResponse("Désoler vous avez déjà voté");
+                            return message;
+                        }
+                    }
                 }
-                administrationRepository.save(administration);
-                MessageResponse message = new MessageResponse("Bravos vous avez voté");
-                return message;
-            } else {
-                MessageResponse message = new MessageResponse("Vous avez déjà voté pour cet projet de loi");
-                return message;
+
             }
+            return null;
         }
     }
 }

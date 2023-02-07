@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class SaveImage {
     public static String localhost = "http://127.0.0.1/";
     public static String serveruser = localhost + "kalata/img/";
-    public static String userLocation = "C:/xampp/htdocs/kalata/img/";
+    public static String userLocation = "C:\\Users\\jssagara\\Desktop\\JeanProjetSoutenance\\kalata\\src\\assets\\images";
     public static String save(MultipartFile file, String fileName) {
         String src = "";
         String server = "";

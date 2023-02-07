@@ -62,7 +62,7 @@ public class ElectionController {
         return electionService.getElectionsByTypeVoteId(typeVoteId);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/ajouter/{idtypevote}")
     public Object save(@Param("file") MultipartFile file,
                        @Param("images") String images,

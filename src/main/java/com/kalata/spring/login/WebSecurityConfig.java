@@ -97,9 +97,7 @@ public class WebSecurityConfig {
 
           //  .antMatchers("/api/typevote").permitAll()
             .antMatchers("/api/elections").permitAll()
-            .antMatchers("/api/pays").permitAll()
-            .antMatchers("/api/region").permitAll()
-            .antMatchers("/api/vote").permitAll()
+            .antMatchers("/api/vote/**").permitAll()
             .antMatchers("/api/test/**").permitAll()
             .antMatchers("/api/projetdelois/**").permitAll()
             .antMatchers("/api/voteprojet/**").permitAll()
