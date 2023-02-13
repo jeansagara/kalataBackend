@@ -4,9 +4,12 @@ package com.kalata.spring.login.security.services;
 import com.kalata.spring.login.models.Administration;
 import com.kalata.spring.login.repository.AdministrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -54,4 +57,19 @@ public class AdministrationServiceImpl implements AdministrationService {
         return administrationRepository.save(administration);
     }
 
+/*    //Status
+    @Scheduled(fixedRate = 86400000)
+    @Override
+    public String Heurdate(){
+        LocalDate datedujour = LocalDate.now();
+        List<Administration> electionterminer = administrationRepository.findAll();
+        for (Administration electionencour : electionterminer){
+            long ecart = ChronoUnit.DAYS.between(electionencour.getDatefin(),datedujour);
+            if (ecart == 0){
+                electionencour.setStatus(false);
+                administrationRepository.save(electionencour);
+            }
+        }
+        return "Projet clos";
+    }*/
 }

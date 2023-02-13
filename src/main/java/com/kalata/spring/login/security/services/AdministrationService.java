@@ -2,6 +2,7 @@ package com.kalata.spring.login.security.services;
 
 import com.kalata.spring.login.models.Administration;
 import com.kalata.spring.login.models.Candidat;
+import org.springframework.scheduling.annotation.Scheduled;
 
 
 import java.util.List;
@@ -15,5 +16,7 @@ public interface AdministrationService {
     Administration save(Administration administration);
 
 
-
+    //Status
+  /*  @Scheduled(fixedRate = 86400000)
+    String Heurdate();*/
 }

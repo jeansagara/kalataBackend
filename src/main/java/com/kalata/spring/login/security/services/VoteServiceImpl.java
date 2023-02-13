@@ -63,7 +63,7 @@ public class VoteServiceImpl implements VoteService{
     }
 
     @Override
-    public MessageResponse creerVote(Long id_candidat, Long idelection, Utilisateurs idutilisateur) {
+    public MessageResponse creerVote(Long id_candidat, Long idelection, Utilisateurs idutilisateur,Double latitude,Double longitude) {
         Vote vote = new Vote();
         Candidat candidat = candidatRepository.findByIdcandidat(id_candidat);
         vote.setCandidat(candidat);
@@ -75,6 +75,8 @@ public class VoteServiceImpl implements VoteService{
             vote.setElection(new Election(idelection));
             vote.setUtilisateurs(idutilisateur);
             vote.setDate(new Date());
+            vote.setLatitude(latitude);
+            vote.setLongitude(longitude);
 
 
             List<Vote> listedevote = voteRepository.findByElection(vote.getElection());
@@ -99,7 +101,7 @@ public class VoteServiceImpl implements VoteService{
                     List<Candidat> candidats = candidatRepository.findAll();
                     for (Candidat c : candidats) {
                         c = candidatRepository.findByIdcandidat(c.getIdcandidat());
-                        c.setPourcentage(((float)c.getVoix()/election.getNbrvote())*100);
+                        c.setPourcentage((((float)c.getVoix()/election.getNbrvote())*100));
                         candidatRepository.save(c);
                     }
                     candidatRepository.save(candidat);

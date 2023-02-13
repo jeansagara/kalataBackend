@@ -14,6 +14,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -26,6 +28,7 @@ import java.util.Set;
 import static com.kalata.spring.login.models.ERole.*;
 
 @SpringBootApplication
+@EnableScheduling
 public class SpringBootLoginExampleApplication implements CommandLineRunner {
 
 	////Partie Twilio (début)////
@@ -67,6 +70,7 @@ public class SpringBootLoginExampleApplication implements CommandLineRunner {
 			Role r1 = utitlisateurService.saveRole(new Role(null, ROLE_SUPERADMIN));
 			Role r2 = utitlisateurService.saveRole(new Role(null, ROLE_ADMIN));
 			Role r3 = utitlisateurService.saveRole(new Role(null, ROLE_ELECTEUR));
+			Role r4 = utitlisateurService.saveRole(new Role(null, ROLE_ADMINISTRATION));
 
 
 		if (utilisateursRepository.findAll().size() ==0){

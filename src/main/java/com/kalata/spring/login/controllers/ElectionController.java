@@ -8,17 +8,19 @@ import com.kalata.spring.login.repository.CandidatRepository;
 import com.kalata.spring.login.repository.ElectionRepository;
 import com.kalata.spring.login.repository.Type_voteRepository;
 import com.kalata.spring.login.security.services.ElectionService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -35,7 +37,9 @@ public class ElectionController {
 
     private CandidatRepository candidatRepository;
 
-    public ElectionController(ElectionService electionService, Type_voteRepository type_voteRepository, CandidatRepository candidatRepository) {
+    public ElectionController(ElectionService electionService,
+                              Type_voteRepository type_voteRepository,
+                              CandidatRepository candidatRepository) {
         this.electionService = electionService;
         this.type_voteRepository = type_voteRepository;
         this.candidatRepository = candidatRepository;
@@ -69,14 +73,20 @@ public class ElectionController {
                        @Param("nomelection") String nomelection,
                        @Param("description") String description,
                        @Param("soustitre") String soustitre,
-                       @Param("datefin") String datefin,
-                       @Param("datedebut") String datedebut,
+                       @Param("datefin") String datefin1,
+                       @Param("datedebut") String datedebut1,
                        @PathVariable("idtypevote") Long idtypevote) throws IOException {
 
         // Methode mallé
         if (electionRepository.existsElectionByNomelection(nomelection)) {
             return "Ce meme nom existe deja";
         }
+
+        // METHODE status
+         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+         LocalDate datedebut = LocalDate.parse(datedebut1, formatter);
+         LocalDate datefin = LocalDate.parse(datefin1, formatter);
+         // METHODE status
 
         Election election = new Election();
         election.setNomelection(nomelection);
@@ -112,12 +122,11 @@ public class ElectionController {
         return ResponseEntity.ok("Election supprimée avec succès");
     }
 
-
+    //Afficher les candidats par election
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/candidatParElection/{idelection}")
     public List<Candidat> candidatParElection(@PathVariable Election idelection) {
         List<Candidat> cnd = candidatRepository.findByElection(idelection);
-        System.out.println("tyuiopcvjklm");
         return candidatRepository.findByElection(idelection);
     }
 }

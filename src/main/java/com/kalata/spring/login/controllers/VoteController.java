@@ -40,15 +40,22 @@ public class VoteController {
 
     // VOTEE POUR UN CANDIDAT DANS UNE ELECTION
   //@PreAuthorize("hasRole('ELECTEUR')")
-        @PostMapping("/creervote/{idutilisateur}/{idelection}/{id_candidat}")
+        @PostMapping("/creervote/{idutilisateur}/{idelection}/{id_candidat}/{latitude}/{longitude}")
     public MessageResponse creerVote(
             @PathVariable Long id_candidat,
             @PathVariable Long idelection,
-            @PathVariable("idutilisateur") Utilisateurs idutilisateur
-    ) {
+            @PathVariable("idutilisateur") Utilisateurs idutilisateur,
+            @PathVariable("latitude") Double latitude,
+            @PathVariable("longitude") Double longitude) {
+            System.out.println("Je suis lat"+latitude);
+            System.out.println("Je suis long"+longitude);
         Vote v = new Vote();
         v.setUtilisateurs(idutilisateur);
-        return voteService.creerVote(id_candidat, idelection, idutilisateur);
+        v.setLatitude(latitude);
+        v.setLongitude(longitude);
+
+
+        return voteService.creerVote(id_candidat, idelection, idutilisateur,latitude,longitude);
     }
 
     // VOTEE POUR UN PROJET DE LOI SELON LES VOIX (Pour, Contre, Contre)
@@ -60,6 +67,15 @@ public class VoteController {
         vp.setUtilisateurs(idutilisateur);
         return voteService.voteprojetloie(idAdministration,idutilisateur,vote);
     }
+
+/*    @PostMapping("/voteprojets/{idAdministration}/{idutilisateur}/{vote}")
+    public MessageResponse VoteAdministration(     @PathVariable Long idAdministration,
+                                                   @PathVariable("idutilisateur") Utilisateurs idutilisateur,
+                                                   @PathVariable int vote){
+        Vote vp = new Vote();
+        vp.setUtilisateurs(idutilisateur);
+        return voteService.voteprojetloie(idAdministration,idutilisateur,vote);
+    }*/
 
 
 

@@ -43,10 +43,12 @@ public class CandidatController {
             @RequestParam("icandidat") MultipartFile icandidat,
             @RequestParam("iparti") MultipartFile iparti) throws IOException {
 
-        // Methode mallé
-/*        if (candidatRepository.existsElectionByNomcandidat(nomcandidat)) {
-            return "Ce nom existe deja";
+/*        // Methode mallé
+        if (candidatRepository.existsCandidatByNomcandidat(nomcandidat)){
+            return "Ce meme nom existe deja";
         }*/
+
+
 
         Candidat candidat = new Candidat( nomcandidat,nomparti);
         String icandidatname = icandidat.getOriginalFilename();
@@ -87,6 +89,7 @@ public class CandidatController {
         return ResponseEntity.ok().body("Candidat supprimé avec succès.");
     }
 
+    //Afficher les candidats par classement
     @GetMapping("/classement")
     public List<Candidat> classement() {
         List<Candidat> candidates = candidatService.lister();

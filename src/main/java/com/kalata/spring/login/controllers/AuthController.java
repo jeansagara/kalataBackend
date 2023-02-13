@@ -144,20 +144,8 @@ public class AuthController {
     System.out.println("Date 1: "+ datenaissance);
     System.out.println("Date 2: "+ dateFormat);
 
-
-/*    //recupere le nom de l'image
-    String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
-    System.out.println(nomfile);
-
-    //envoie le nom, url et le fichier à la classe ConfigImages qui se chargera de sauvegarder l'image
-    ConfigImages.saveimg(url, nomfile, file);*/
-
-    //converssion du string reçu en classe SignupRequest
-    //SignupRequest signUpRequest = new JsonMapper().readValue(donneesuser, SignupRequest.class);
-
     Set<String> rolesvenu = new HashSet<>();
     rolesvenu.add(role);
-
     SignupRequest signUpRequest = new SignupRequest();
     signUpRequest.setUsername(username);
     signUpRequest.setSexe(sexe);
@@ -218,7 +206,10 @@ public class AuthController {
         } else if ("superadmin".equals(rol)) {//si le role est à égale à admin
           Role electeurRole = roleRepository.findByName(ERole.ROLE_SUPERADMIN);
           roles.add(electeurRole);
-        } else {//on recupere le role de l'utilisateur
+        } else if ("administration".equals(rol)){//on récupère le role de l'administration
+          Role userRole = roleRepository.findByName(ERole.ROLE_ADMINISTRATION);
+          roles.add(userRole);
+        } else {//on récupère le role de l'utilisateur
           Role userRole = roleRepository.findByName(ERole.ROLE_ELECTEUR);
           roles.add(userRole);
 
@@ -236,21 +227,5 @@ public class AuthController {
     return ResponseEntity.ok(new MessageResponse("Electeur enregistré avec succès!"));
 
   }
-
-/*
-  @PostMapping("/electeur")
-  @PreAuthorize("hasRole('ADMIN')")
-  public List<Utilisateurs> importer(@RequestParam("file") MultipartFile file) throws IOException {
-    List<Utilisateurs> electeurs = FilleExcel.saveElecteur(file);
-
-    for (Utilisateurs u: electeurs){
-      registerDefaultUser(u.getUsername(), u.getBiometrie(), u.getTelephone(), u.getSexe(), u.getDatenaissance(), u.getEmail(), u.getPassword(),"electeur");
-    }
-    return electeurs;
-  }
-
- */
-
-
 }
 

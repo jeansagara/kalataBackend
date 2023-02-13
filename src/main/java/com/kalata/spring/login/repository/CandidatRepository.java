@@ -13,6 +13,7 @@ public interface CandidatRepository extends JpaRepository<Candidat, Long> {
     Candidat findByIdcandidat(Long idcandidat);
     List<Candidat> findByElection(Election idelection);
 
-    //empecher de... deux fois
-    //boolean existsElectionByNomcandidat(String nomcandidat);
+  /*  //empecher de... deux fois
+    boolean existsCandidatByNomcandidat(String nomcandidat);*/
+
 }

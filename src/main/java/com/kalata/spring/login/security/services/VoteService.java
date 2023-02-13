@@ -12,6 +12,6 @@ public interface VoteService  {
     List<Vote> afficher();
     String supprimer (Long id);
     Vote id_vote(Long id);
-    MessageResponse creerVote(Long id_candidat, Long idelection, Utilisateurs idutilisateur);
+    MessageResponse creerVote(Long id_candidat, Long idelection, Utilisateurs idutilisateur,Double latitude, Double longetude);
     MessageResponse voteprojetloie(Long idAdministration, Utilisateurs idutilisateur, int vote);
 }

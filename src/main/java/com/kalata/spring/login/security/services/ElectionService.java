@@ -4,7 +4,8 @@ import com.kalata.spring.login.models.Election;
 
 import java.util.List;
 
-public interface ElectionService {
+public interface
+ElectionService {
 
     List<Election> findAll();
     Election findById(Long id);
@@ -12,5 +13,8 @@ public interface ElectionService {
     Election save(Election election);
     String delete(Long id);
     List<Election> getElectionsByTypeVoteId(Long typeVoteId);
+
+    //STATUS METHODE
+    String Heurdate();
 
 }
