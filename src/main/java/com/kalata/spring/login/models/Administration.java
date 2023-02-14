@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "projetdelois")
@@ -19,8 +20,8 @@ public class Administration {
     private String titre;
     private String image;
     private String descrption;
-    private String datefin;
-    private String datedebut;
+    private LocalDate datefin;
+    private LocalDate datedebut;
     private int nbredeselus;
     private int pour;
     private int contre;

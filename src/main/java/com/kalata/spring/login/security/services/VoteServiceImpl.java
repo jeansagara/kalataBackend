@@ -63,21 +63,22 @@ public class VoteServiceImpl implements VoteService{
     }
 
     @Override
-    public MessageResponse creerVote(Long id_candidat, Long idelection, Utilisateurs idutilisateur,Double latitude,Double longitude) {
+    public MessageResponse creerVote(Long id_candidat,
+                                     Long idelection,
+                                     Utilisateurs idutilisateur,
+                                     Double latitude,
+                                     Double longitude) {
         Vote vote = new Vote();
         Candidat candidat = candidatRepository.findByIdcandidat(id_candidat);
         vote.setCandidat(candidat);
         Election election = electionRepository.findByIdelection(idelection);
         if (election.getStatus()==true){
 
-
-
             vote.setElection(new Election(idelection));
             vote.setUtilisateurs(idutilisateur);
             vote.setDate(new Date());
             vote.setLatitude(latitude);
             vote.setLongitude(longitude);
-
 
             List<Vote> listedevote = voteRepository.findByElection(vote.getElection());
 //        Utilisateurs utilisateurs = null;
@@ -142,8 +143,13 @@ public class VoteServiceImpl implements VoteService{
         return null;
     }
 
+    //////////////////////////////////////////////////////////////////////// PROJRT ///////////////////////////////////////////////////////////////
     @Override
-    public MessageResponse voteprojetloie( Long idAdministration, Utilisateurs idutilisateur, int vote)  {
+    public MessageResponse voteprojetloie( Long idAdministration,
+                                           Utilisateurs idutilisateur,
+                                           int vote,
+                                           Double latitude,
+                                           Double longitude)  {
         Vote v = new Vote();
         Administration administration = administrationRepository.findByIdAdministration(idAdministration);
         System.out.println("nombreTotal");
@@ -152,10 +158,14 @@ public class VoteServiceImpl implements VoteService{
         System.err.println(administration.getNbredeselus());
         if (administration.getTotalvote() >= administration.getNbredeselus()){
             return new MessageResponse("Le nombre de candidat pouvant votée est atteint");
+
         }else {
             v.setAdministration(administration);
             v.setUtilisateurs(idutilisateur);
             v.setDate(new Date());
+            v.setLatitude(latitude);
+            v.setLongitude(longitude);
+
 
             List<Vote> use1 = voteRepository.findByUtilisateurs(idutilisateur);
             System.out.println("zreegfgrthgttggtg"+vote);

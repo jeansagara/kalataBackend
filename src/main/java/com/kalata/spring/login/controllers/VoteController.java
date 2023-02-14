@@ -54,18 +54,24 @@ public class VoteController {
         v.setLatitude(latitude);
         v.setLongitude(longitude);
 
-
         return voteService.creerVote(id_candidat, idelection, idutilisateur,latitude,longitude);
     }
 
     // VOTEE POUR UN PROJET DE LOI SELON LES VOIX (Pour, Contre, Contre)
-    @PostMapping("/voteprojets/{idAdministration}/{idutilisateur}/{vote}")
-    public MessageResponse VoteAdministration(     @PathVariable Long idAdministration,
+    @PostMapping("/voteprojets/{idAdministration}/{idutilisateur}/{vote}/{latitude}/{longitude}")
+    public MessageResponse VoteAdministration(     @PathVariable("idAdministration") Long idAdministration,
                                                    @PathVariable("idutilisateur") Utilisateurs idutilisateur,
-                                                   @PathVariable int vote){
+                                                   @PathVariable int vote,
+                                                   @PathVariable("latitude") Double latitude,
+                                                   @PathVariable("longitude") Double longitude){
+        System.out.println("Je suis JEAN"+latitude);
+        System.out.println("Je suis SAGARA"+longitude);
+
         Vote vp = new Vote();
+        vp.setLatitude(latitude);
+        vp.setLongitude(longitude);
         vp.setUtilisateurs(idutilisateur);
-        return voteService.voteprojetloie(idAdministration,idutilisateur,vote);
+        return voteService.voteprojetloie(idAdministration,idutilisateur,vote,latitude,longitude);
     }
 
 /*    @PostMapping("/voteprojets/{idAdministration}/{idutilisateur}/{vote}")

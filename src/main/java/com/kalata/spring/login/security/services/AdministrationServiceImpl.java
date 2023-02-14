@@ -57,7 +57,7 @@ public class AdministrationServiceImpl implements AdministrationService {
         return administrationRepository.save(administration);
     }
 
-/*    //Status
+   //Status
     @Scheduled(fixedRate = 86400000)
     @Override
     public String Heurdate(){
@@ -71,5 +71,5 @@ public class AdministrationServiceImpl implements AdministrationService {
             }
         }
         return "Projet clos";
-    }*/
+    }
 }

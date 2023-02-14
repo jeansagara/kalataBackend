@@ -10,6 +10,7 @@ import com.kalata.spring.login.repository.CandidatRepository;
 import com.kalata.spring.login.repository.Type_voteRepository;
 import com.kalata.spring.login.security.services.AdministrationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8100", maxAge = 3600,allowCredentials = "true")
@@ -41,8 +44,8 @@ public class AdministrationController {
     public String save(@RequestParam("file") MultipartFile file,
                        @RequestParam("titre") String titre,
                        @RequestParam("description") String description,
-                       @RequestParam("datefin") String datefin,
-                       @RequestParam("datedebut") String datedebut,
+                       @Param("datefin") String datefin1,
+                       @Param("datedebut") String datedebut1,
                        @RequestParam("nbredeselus") int nbredeselus,
                        @PathVariable Long idadministration) throws IOException {
 
@@ -50,6 +53,13 @@ public class AdministrationController {
         if (administrationRepository.existsAdministrationByTitre(titre)){
             return "Ce meme nom existe deja";
         }
+
+        // METHODE status
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate datedebut = LocalDate.parse(datedebut1, formatter);
+        LocalDate datefin = LocalDate.parse(datefin1, formatter);
+        // METHODE status
+
 
         Administration administration = new Administration();
         administration.setTitre(titre);
