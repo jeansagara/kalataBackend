@@ -5,6 +5,7 @@ import com.kalata.spring.login.EXCEL.FilleExcel;
 import com.kalata.spring.login.SendEmail.EmailConstructor;
 import com.kalata.spring.login.img.ConfigImages;
 import com.kalata.spring.login.models.ERole;
+import com.kalata.spring.login.models.ExcelDto;
 import com.kalata.spring.login.models.Role;
 import com.kalata.spring.login.models.Utilisateurs;
 import com.kalata.spring.login.payload.request.LoginRequest;
@@ -45,7 +46,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:8100", maxAge = 3600,allowCredentials = "true")
+@CrossOrigin(value = {"http://localhost:8100","http://localhost:4200"}, maxAge = 3600,allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth")
 @ToString
@@ -116,12 +117,11 @@ public class AuthController {
 
     );
   }
+  
 
   //@PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/signup")//@valid s'assure que les données soit validées
-  public ResponseEntity<?> registerDefaultUser(
-
-                                               @Param("username") String username,
+  public ResponseEntity<?> registerDefaultUser(@Param("username") String username,
                                                @Param("biometrie") String biometrie,
                                                @Param("telephone") String telephone,
                                                @Param("sexe") String sexe,
@@ -224,8 +224,38 @@ public class AuthController {
 
     utilisateursRepository.save(utilisateurs);
     mailSender.send(emailConstructor.constructNewUserEmail(utilisateurs));
-    return ResponseEntity.ok(new MessageResponse("Electeur enregistré avec succès!"));
+    return ResponseEntity.ok(new MessageResponse("Enregistré avec succès!"));
 
   }
+
+
+
+
+
+  @PostMapping("/importer/{id}")
+  public List<ExcelDto> importer(@Param("excel") MultipartFile excel, @PathVariable long id) throws IOException {
+    List<ExcelDto> excelDtos = FilleExcel.saveElecteur(excel);
+    for (ExcelDto exceldata :
+            excelDtos) {
+      superAddInfraction(
+              exceldata.getDescription(),
+              exceldata.getReference(),
+              exceldata.getCategorie1(),
+              exceldata.getDevise1(),
+              exceldata.getMontant1(),
+              exceldata.getCategorie2(),
+              exceldata.getDevise2(),
+              exceldata.getMontant2(),
+              null,
+              null,
+              id);
+    }
+    return excelDtos;
+  }
+
+}
+
+
+
 }
 

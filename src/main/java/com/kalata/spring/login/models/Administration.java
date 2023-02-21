@@ -32,7 +32,7 @@ public class Administration {
 
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_typevote")
     private Type_vote type_vote;
 

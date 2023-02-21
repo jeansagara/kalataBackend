@@ -18,13 +18,9 @@ public class ConfigImages {
         if(!Files.exists(UploadPath)) {
             Files.createDirectories(UploadPath);
         }
-            try(InputStream inputStream = multipartFile.getInputStream()){
                 Path fichierPath = UploadPath.resolve(nomfile);
 
-                Files.copy(inputStream, fichierPath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException ioe){
-                throw new IOException("Impossible d'enregistrer le fichier image:" + nomfile, ioe);
-            }
+
         }
 
 

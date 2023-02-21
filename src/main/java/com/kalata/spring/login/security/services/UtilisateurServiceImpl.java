@@ -1,6 +1,7 @@
 package com.kalata.spring.login.security.services;
 
 import com.kalata.spring.login.SendEmail.EmailConstructor;
+import com.kalata.spring.login.models.Candidat;
 import com.kalata.spring.login.models.ERole;
 import com.kalata.spring.login.models.Role;
 import com.kalata.spring.login.models.Utilisateurs;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -36,7 +38,6 @@ public class UtilisateurServiceImpl implements  UtitlisateurService{
         return roleRepository.save(role);
     }
 
-
     @Override
     public Utilisateurs saveUtilisateur(Utilisateurs utilisateurs) {
          utilisateursRepository.save(utilisateurs);
@@ -53,4 +54,10 @@ public class UtilisateurServiceImpl implements  UtitlisateurService{
             utilisateurs.get().getRoles().add(role);
         }
     }
+    @Override
+    public List<Utilisateurs> lister() {
+        return utilisateursRepository.findAll();
+    }
+
+
 }

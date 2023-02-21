@@ -102,7 +102,9 @@ public class VoteServiceImpl implements VoteService{
                     List<Candidat> candidats = candidatRepository.findAll();
                     for (Candidat c : candidats) {
                         c = candidatRepository.findByIdcandidat(c.getIdcandidat());
-                        c.setPourcentage((((float)c.getVoix()/election.getNbrvote())*100));
+                        System.out.println("pourcentage================================"+Math.round(((float)c.getVoix()/election.getNbrvote())*100));
+                        int a=Math.round(((float)c.getVoix()/election.getNbrvote())*100);
+                        c.setPourcentage(a);
                         candidatRepository.save(c);
                     }
                     candidatRepository.save(candidat);

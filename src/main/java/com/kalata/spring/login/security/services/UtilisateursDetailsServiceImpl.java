@@ -32,7 +32,7 @@ public class UtilisateursDetailsServiceImpl implements UserDetailsService {
   @Transactional
   public UserDetails loadUserByUsername(String biometrieOrTelephone) throws UsernameNotFoundException {
     Utilisateurs user = utilisateursRepository.findByBiometrieOrTelephoneOrUsername(biometrieOrTelephone,biometrieOrTelephone,biometrieOrTelephone)
-        .orElseThrow(() -> new UsernameNotFoundException("collaborateur non trouvé: " + biometrieOrTelephone));
+        .orElseThrow(() -> new UsernameNotFoundException("electeur non trouvé: " + biometrieOrTelephone));
     return UtilisateursDetails.build(user);
   }
 

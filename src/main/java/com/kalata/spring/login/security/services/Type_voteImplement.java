@@ -21,7 +21,6 @@ public class Type_voteImplement implements Type_voteService{
         this.type_voteRepository.deleteById(id);
         return "vote supprimer avec succes";
     }
-
     @Override
     public Type_vote findById(Long id) {
         return type_voteRepository.findById(id).get();

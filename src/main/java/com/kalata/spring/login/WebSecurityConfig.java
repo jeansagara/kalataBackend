@@ -93,6 +93,7 @@ public class WebSecurityConfig {
             .antMatchers("/api/auth/**").permitAll()
             .antMatchers("/api/bienvenue/**").permitAll()
             .antMatchers("/api/roles/**").permitAll()
+            .antMatchers("/api/utilisateur/**").permitAll()
             .antMatchers("/**").permitAll()
 
           //  .antMatchers("/api/typevote").permitAll()

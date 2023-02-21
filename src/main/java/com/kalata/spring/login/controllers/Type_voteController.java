@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8100", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(value = {"http://localhost:8100","http://localhost:4200"}, maxAge = 3600,allowCredentials = "true")
 @RequestMapping("/typevote")
 public class Type_voteController {
 
@@ -25,13 +25,18 @@ public class Type_voteController {
     Type_voteRepository type_voteRepository;
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/ajouter")
-    public Object save(@RequestBody Type_vote type_vote){
+    public Object save(@RequestParam String nom){
         //tjrs empecher de... deux fois
+
+        Type_vote type_vote = new Type_vote();
+        type_vote.setNom(nom);
+
         if (type_voteService.existByType_vote(type_vote.getNom())){
             return "Ce meme nom existe deja";
         }
+
         type_voteService.save(type_vote);
         return "Vote ajouter avec succèss";
 

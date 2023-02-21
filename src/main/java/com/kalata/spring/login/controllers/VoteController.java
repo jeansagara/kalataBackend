@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8100", maxAge = 3600,allowCredentials = "true")
+@CrossOrigin(value = {"http://localhost:8100","http://localhost:4200"}, maxAge = 3600,allowCredentials = "true")
 
 @RestController
 @RequestMapping("/api/vote")
@@ -26,7 +26,7 @@ public class VoteController {
         return voteService.creer(vote);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+   /* @PreAuthorize("hasRole('ADMIN')")*/
     @GetMapping("/afficher")
     public List<Vote> list() {
         return voteService.afficher();
@@ -47,8 +47,6 @@ public class VoteController {
             @PathVariable("idutilisateur") Utilisateurs idutilisateur,
             @PathVariable("latitude") Double latitude,
             @PathVariable("longitude") Double longitude) {
-            System.out.println("Je suis lat"+latitude);
-            System.out.println("Je suis long"+longitude);
         Vote v = new Vote();
         v.setUtilisateurs(idutilisateur);
         v.setLatitude(latitude);
@@ -64,9 +62,6 @@ public class VoteController {
                                                    @PathVariable int vote,
                                                    @PathVariable("latitude") Double latitude,
                                                    @PathVariable("longitude") Double longitude){
-        System.out.println("Je suis JEAN"+latitude);
-        System.out.println("Je suis SAGARA"+longitude);
-
         Vote vp = new Vote();
         vp.setLatitude(latitude);
         vp.setLongitude(longitude);

@@ -2,6 +2,7 @@ package com.kalata.spring.login.controllers;
 
 
 import com.kalata.spring.login.img.ConfigImages;
+import com.kalata.spring.login.img.SaveImage;
 import com.kalata.spring.login.models.Administration;
 import com.kalata.spring.login.models.Candidat;
 import com.kalata.spring.login.models.Type_vote;
@@ -22,7 +23,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8100", maxAge = 3600,allowCredentials = "true")
+@CrossOrigin(value = {"http://localhost:8100","http://localhost:4200"}, maxAge = 3600,allowCredentials = "true")
 @RestController
 //@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/api/projetdelois")
@@ -77,11 +78,13 @@ public class AdministrationController {
         administration.setType_vote(type_vote);
 
         // Enregistrement de l'image et mise à jour de l'objet Administration avec le chemin de l'image
-        String imgPath = StringUtils.cleanPath(file.getOriginalFilename());
-        administration.setImage(imgPath);
+        String icandidatname = file.getOriginalFilename();
+        administration.setImage(SaveImage.save(file,icandidatname));
 
-        String uploadDir = "C:/Users/jssagara/Pictures";
-        ConfigImages.saveimg(uploadDir, imgPath, file);
+
+
+     //   String uploadDir = "C:/Users/jssagara/Pictures";
+      //  ConfigImages.saveimg(uploadDir, imgPath, file);
         administrationService.ajout(administration);
         return "Projet ajouté avec succès!";
     }
@@ -108,7 +111,7 @@ public class AdministrationController {
         return ResponseEntity.ok(administrationService.save(administration));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/supprimer/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         administrationService.delete(id);

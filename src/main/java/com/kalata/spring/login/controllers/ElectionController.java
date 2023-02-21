@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8100", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(value = {"http://localhost:8100","http://localhost:4200"}, maxAge = 3600,allowCredentials = "true")
 @RequestMapping("/api/elections")
 public class ElectionController {
 
@@ -45,7 +45,7 @@ public class ElectionController {
         this.candidatRepository = candidatRepository;
     }
 
-    @GetMapping
+    @GetMapping("/afficherAllElection")
     public ResponseEntity<List<Election>> findAll() {
         return ResponseEntity.ok(electionService.findAll());
     }
@@ -66,7 +66,7 @@ public class ElectionController {
         return electionService.getElectionsByTypeVoteId(typeVoteId);
     }
 
-     @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/ajouter/{idtypevote}")
     public Object save(@Param("file") MultipartFile file,
                        @Param("images") String images,
@@ -81,6 +81,7 @@ public class ElectionController {
         if (electionRepository.existsElectionByNomelection(nomelection)) {
             return "Ce meme nom existe deja";
         }
+        System.out.print(datefin1);
 
         // METHODE status
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

@@ -29,7 +29,7 @@ public class Election {
     private int nbrvote;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_type_vote")
     private Type_vote type_vote;
 
