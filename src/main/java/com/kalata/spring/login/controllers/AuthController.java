@@ -18,6 +18,7 @@ import com.kalata.spring.login.security.services.jwt.JwtUtils;
 import com.kalata.spring.login.security.services.UtilisateursDetails;
 import lombok.Data;
 import lombok.ToString;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +41,10 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @CrossOrigin(value = {"http://localhost:8100","http://localhost:4200"}, maxAge = 3600,allowCredentials = "true")
@@ -51,7 +52,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth")
 @ToString
 public class AuthController {
-
   @Autowired
   private EmailConstructor emailConstructor;
 
@@ -117,7 +117,7 @@ public class AuthController {
 
     );
   }
-  
+
 
   //@PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/signup")//@valid s'assure que les données soit validées
@@ -133,6 +133,7 @@ public class AuthController {
   ) throws IOException, ParseException {
 
     Date dateFormat = new SimpleDateFormat("yyyy-MM-dd").parse(datenaissance);
+
     //Date date = dateFormat.parse(datenaissance);
 
     System.out.println(dateFormat);
@@ -144,118 +145,157 @@ public class AuthController {
     System.out.println("Date 1: "+ datenaissance);
     System.out.println("Date 2: "+ dateFormat);
 
-    Set<String> rolesvenu = new HashSet<>();
-    rolesvenu.add(role);
-    SignupRequest signUpRequest = new SignupRequest();
-    signUpRequest.setUsername(username);
-    signUpRequest.setSexe(sexe);
-    signUpRequest.setBiometrie(biometrie);
-    signUpRequest.setTelephone(telephone);
-    signUpRequest.setEmail(email);
-    signUpRequest.setDatenaissance(dateFormat);
-    signUpRequest.setPassword(password);
-    signUpRequest.setRole(rolesvenu);
+    Date datejour = new Date();
+    long ageer = datejour.getTime() - dateFormat.getTime() ;
 
 
+    TimeUnit time = TimeUnit.DAYS;
+    long diffrence = time.convert(ageer, TimeUnit.MILLISECONDS);
+      long age = diffrence/365;
+    System.out.println("The difference in years is : "+age);
 
-    if (utilisateursRepository.existsByUsername(signUpRequest.getUsername())) {
-      return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Erreur: Ce nom d'utilisateur existe déjà!"));
-    }
+    System.out.println("l'ecart de date est : "+ ageer);
 
-    if (utilisateursRepository.existsByEmail(signUpRequest.getEmail())) {
-
-      //confectionne l'objet de retour à partir de ResponseEntity(une classe de spring boot) et MessageResponse
-      return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Erreur: Cet email est déjà utilisé!"));
-    }
-    //System.err.println(signUpRequest);
-    // Create new user's account
-    Utilisateurs utilisateurs = new Utilisateurs();
-
-    utilisateurs.setUsername(signUpRequest.getUsername());
-    utilisateurs.setEmail(signUpRequest.getEmail());
-    utilisateurs.setPassword(encoder.encode(password));
-    utilisateurs.setSexe(signUpRequest.getSexe());
-    utilisateurs.setBiometrie(signUpRequest.getBiometrie());
-    utilisateurs.setTelephone(signUpRequest.getTelephone());
-    utilisateurs.setDatenaissance(signUpRequest.getDatenaissance());
-
-
-    System.err.println(utilisateurs);
-
-    //on recupere le role de l'user dans un tableau ordonné de type string
-    Set<String> strRoles = signUpRequest.getRole();
-    Set<Role> roles = new HashSet<>();
-    //roles.add(strRoles);
-
-    if (strRoles == null) {
-      System.out.println("####################################" + signUpRequest.getRole() + "###########################################");
-
-      //on recupere le role de l'utilisateur
-      Role userRole = roleRepository.findByName(ERole.ROLE_ELECTEUR);
-      roles.add(userRole);//on ajoute le role de l'user à roles
+    if (age < 18) {
+      return ResponseEntity.ok(new MessageResponse("Vous n'avez pas l'age de voter !"));//ResponseEntity.badRequest().body("Vous n'avez pas l'age de voter");
     } else {
-      strRoles.forEach(rol -> {//on parcours le role
-        //dans le cas écheant
-        if ("admin".equals(rol)) {//si le role est à égale à admin
-          Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
-          roles.add(adminRole);
-        } else if ("superadmin".equals(rol)) {//si le role est à égale à admin
-          Role electeurRole = roleRepository.findByName(ERole.ROLE_SUPERADMIN);
-          roles.add(electeurRole);
-        } else if ("administration".equals(rol)){//on récupère le role de l'administration
-          Role userRole = roleRepository.findByName(ERole.ROLE_ADMINISTRATION);
-          roles.add(userRole);
-        } else {//on récupère le role de l'utilisateur
-          Role userRole = roleRepository.findByName(ERole.ROLE_ELECTEUR);
-          roles.add(userRole);
+      Set<String> rolesvenu = new HashSet<>();
+      rolesvenu.add(role);
+      SignupRequest signUpRequest = new SignupRequest();
+      signUpRequest.setUsername(username);
+      signUpRequest.setSexe(sexe);
+      signUpRequest.setBiometrie(biometrie);
+      signUpRequest.setTelephone(telephone);
+      signUpRequest.setEmail(email);
+      signUpRequest.setDatenaissance(dateFormat);
+      signUpRequest.setAge(age);
+      signUpRequest.setPassword(password);
+      signUpRequest.setRole(rolesvenu);
 
-        }
-      });
+
+
+      if (utilisateursRepository.existsByUsername(signUpRequest.getUsername())) {
+        return ResponseEntity
+                .badRequest()
+                .body(new MessageResponse("Erreur: Ce nom d'utilisateur existe déjà!"));
+      }
+
+      if (utilisateursRepository.existsByEmail(signUpRequest.getEmail())) {
+
+        //confectionne l'objet de retour à partir de ResponseEntity(une classe de spring boot) et MessageResponse
+        return ResponseEntity
+                .badRequest()
+                .body(new MessageResponse("Erreur: Cet email est déjà utilisé!"));
+      }
+      //System.err.println(signUpRequest);
+      // Create new user's account
+      Utilisateurs utilisateurs = new Utilisateurs();
+      utilisateurs.setUsername(signUpRequest.getUsername());
+      utilisateurs.setEmail(signUpRequest.getEmail());
+      utilisateurs.setPassword(encoder.encode(password));
+      utilisateurs.setSexe(signUpRequest.getSexe());
+      utilisateurs.setBiometrie(signUpRequest.getBiometrie());
+      utilisateurs.setTelephone(signUpRequest.getTelephone());
+      utilisateurs.setDatenaissance(signUpRequest.getDatenaissance());
+
+      System.err.println(utilisateurs);
+
+      //on recupere le role de l'user dans un tableau ordonné de type string
+      Set<String> strRoles = signUpRequest.getRole();
+      Set<Role> roles = new HashSet<>();
+      //roles.add(strRoles);
+
+      if (strRoles == null) {
+        System.out.println("####################################" + signUpRequest.getRole() + "###########################################");
+
+        //on recupere le role de l'utilisateur
+        Role userRole = roleRepository.findByName(ERole.ROLE_ELECTEUR);
+        roles.add(userRole);//on ajoute le role de l'user à roles
+      } else {
+        strRoles.forEach(rol -> {//on parcours le role
+          //dans le cas écheant
+          if ("admin".equals(rol)) {//si le role est à égale à admin
+            Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
+            roles.add(adminRole);
+          } else if ("superadmin".equals(rol)) {//si le role est à égale à admin
+            Role electeurRole = roleRepository.findByName(ERole.ROLE_SUPERADMIN);
+            roles.add(electeurRole);
+          } else if ("administration".equals(rol)){//on récupère le role de l'administration
+            Role userRole = roleRepository.findByName(ERole.ROLE_ADMINISTRATION);
+            roles.add(userRole);
+          } else {//on récupère le role de l'utilisateur
+            Role userRole = roleRepository.findByName(ERole.ROLE_ELECTEUR);
+            roles.add(userRole);
+
+          }
+        });
+      }
+
+      //on ajoute le role au Electeur
+      utilisateurs.setRoles(roles);
+      System.out.println("############VOICI MON UTILISATEUR###############");
+      System.out.println(utilisateurs);
+
+      utilisateursRepository.save(utilisateurs);
+      // mailSender.send(emailConstructor.constructNewUserEmail(utilisateurs));
+      return ResponseEntity.ok(new MessageResponse("Enregistré avec succès!"));
     }
-
-    //on ajoute le role au Electeur
-    utilisateurs.setRoles(roles);
-    System.out.println("############VOICI MON UTILISATEUR###############");
-    System.out.println(utilisateurs);
-
-    utilisateursRepository.save(utilisateurs);
-    mailSender.send(emailConstructor.constructNewUserEmail(utilisateurs));
-    return ResponseEntity.ok(new MessageResponse("Enregistré avec succès!"));
 
   }
 
-
-
-
-
-  @PostMapping("/importer/{id}")
-  public List<ExcelDto> importer(@Param("excel") MultipartFile excel, @PathVariable long id) throws IOException {
+  //IMPORTATION FILE EXCEL
+  @PostMapping("/electeur")
+  public List<ExcelDto> importer(@Param("excel") MultipartFile excel) throws IOException, ParseException {
     List<ExcelDto> excelDtos = FilleExcel.saveElecteur(excel);
+    List<Utilisateurs> utilisateurs = new ArrayList<>();
+    Set<Role> roles = new HashSet<>();
+    Role userRole = roleRepository.findByName(ERole.ROLE_ADMINISTRATION);
+    roles.add(userRole);
+    excelDtos.forEach(excelDto -> {
+      Utilisateurs utilisateur = new Utilisateurs();
+      utilisateur.setRoles(roles);
+
+            String U = excelDto.getPassword();
+            System.out.println("le pass "+ U);
+      utilisateur.setPassword(U);
+
+
+//      encoder.encode(utilisateur.getPassword());
+      utilisateur.setSexe(excelDto.getSexe());
+      Date dateFormat = new Date();
+    //  try {
+      //  dateFormat = new SimpleDateFormat("yyyy-MM-dd").parse(excelDto.getDatenaissance());
+      //} catch (ParseException e) {
+       // throw new RuntimeException(e);
+      //}
+      utilisateur.setDatenaissance(dateFormat);
+      utilisateur.setBiometrie(excelDto.getBiometrie());
+      utilisateur.setTelephone(excelDto.getTelephone());
+      utilisateur.setUsername(excelDto.getUsername());
+      utilisateur.setEmail(excelDto.getEmail());
+      utilisateurs.add(utilisateur);
+    });
+    utilisateursRepository.saveAll(utilisateurs);
+    assert excelDtos != null;
     for (ExcelDto exceldata :
             excelDtos) {
-      superAddInfraction(
-              exceldata.getDescription(),
-              exceldata.getReference(),
-              exceldata.getCategorie1(),
-              exceldata.getDevise1(),
-              exceldata.getMontant1(),
-              exceldata.getCategorie2(),
-              exceldata.getDevise2(),
-              exceldata.getMontant2(),
-              null,
-              null,
-              id);
+
+      registerDefaultUser(
+              exceldata.getUsername(),
+              exceldata.getBiometrie(),
+              exceldata.getTelephone(),
+              exceldata.getSexe(),
+              exceldata.getDatenaissance(),
+              exceldata.getEmail(),
+//              exceldata.getPassword(),
+              encoder.encode(exceldata.getPassword()),
+              null
+              );
     }
+
     return excelDtos;
   }
 
 }
 
-
-
-}
 

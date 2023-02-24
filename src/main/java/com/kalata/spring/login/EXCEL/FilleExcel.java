@@ -1,6 +1,7 @@
 
 package com.kalata.spring.login.EXCEL;
 
+import com.kalata.spring.login.models.ExcelDto;
 import com.kalata.spring.login.models.Utilisateurs;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -26,11 +27,11 @@ public class FilleExcel {
     }
 
     // Methode qui retourne la liste des electeur à travers le fichier excel
-    public static List<Utilisateurs> saveElecteur(MultipartFile file) {
+    public static List<ExcelDto> saveElecteur(MultipartFile file) {
 
         try {
             // creation d'une liste dans la quelle on va mettre la liste à recuperée
-            List<Utilisateurs> electeurs = new ArrayList<Utilisateurs>();
+            List<ExcelDto> electeurs = new ArrayList<ExcelDto>();
 
             // lecture du fichier
             Workbook workbook = new XSSFWorkbook(file.getInputStream());
@@ -49,7 +50,7 @@ public class FilleExcel {
                     continue;
                 }
                 // création d'un nouvel utilisateur
-                Utilisateurs electeur = new Utilisateurs();
+                ExcelDto excelDto = new ExcelDto();
                 // parcour des colonnes d'une ligne
                 while (cellIterator.hasNext()) {
                     Cell colonneCourante = cellIterator.next();
@@ -59,37 +60,38 @@ public class FilleExcel {
                     // recuperation des infos de chaque colonne
                     switch (colonneCourante.getColumnIndex()) {
                         case 0:
-                            electeur.setUsername(formatter.formatCellValue(colonneCourante));
+                            excelDto.setUsername(formatter.formatCellValue(colonneCourante));
                             break;
                         case 1:
-                            electeur.setBiometrie(colonneCourante.getStringCellValue());
+                            excelDto.setBiometrie(colonneCourante.getStringCellValue());
                             break;
                         case 2:
                             try {
-                                electeur.setDatenaissance(colonneCourante.getDateCellValue());
+                                excelDto.setDatenaissance(colonneCourante.getLocalDateTimeCellValue().toString());
                             } catch (IllegalStateException e) {
-                                electeur.setDatenaissance(null);
+                                excelDto.setDatenaissance(null);
                                 e.printStackTrace();
                             }
                             break;
                         case 3:
-                            electeur.setTelephone(String.valueOf(Long.parseLong(formatter.formatCellValue(colonneCourante))));
+                            excelDto.setTelephone(String.valueOf(Long.parseLong(formatter.formatCellValue(colonneCourante))));
                             break;
                         case 4:
-                            electeur.setSexe(formatter.formatCellValue(colonneCourante));
+                            excelDto.setSexe(formatter.formatCellValue(colonneCourante));
                             break;
                         case 5:
-                            electeur.setEmail(formatter.formatCellValue(colonneCourante));
+                            excelDto.setEmail(formatter.formatCellValue(colonneCourante));
                             break;
                         case 6:
-                            electeur.setPassword(formatter.formatCellValue(colonneCourante));
+                            excelDto.setPassword(formatter.formatCellValue(colonneCourante));
                             break;
                         default:
                             break;
                     }
                 }
-                electeurs.add(electeur);
+                electeurs.add(excelDto);
             }
+
             workbook.close();
             return electeurs;
 

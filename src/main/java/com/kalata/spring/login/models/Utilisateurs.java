@@ -40,6 +40,6 @@ public class Utilisateurs {
     private String sexe;
     private String biometrie;
     private String telephone;
-
+    private long age;
 
 }

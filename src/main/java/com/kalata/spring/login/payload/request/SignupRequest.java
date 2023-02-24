@@ -38,7 +38,7 @@ public class SignupRequest {
 
   //----------------new----------------
 
-  private int age;
+  private long age;
 
   @NotBlank
   @Size(max = 20)
