@@ -16,7 +16,8 @@ public interface AdministrationService {
     Administration save(Administration administration);
 
 
-    //Status
+/*    //Status
    @Scheduled(fixedRate = 86400000)
     String Heurdate();
+   */
 }

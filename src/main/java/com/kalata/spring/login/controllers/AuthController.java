@@ -251,13 +251,14 @@ public class AuthController {
     Set<Role> roles = new HashSet<>();
     Role userRole = roleRepository.findByName(ERole.ROLE_ADMINISTRATION);
     roles.add(userRole);
+
     excelDtos.forEach(excelDto -> {
       Utilisateurs utilisateur = new Utilisateurs();
       utilisateur.setRoles(roles);
 
             String U = excelDto.getPassword();
             System.out.println("le pass "+ U);
-      utilisateur.setPassword(U);
+      utilisateur.setPassword(encoder.encode(excelDto.getPassword()));
 
 
 //      encoder.encode(utilisateur.getPassword());
@@ -288,7 +289,7 @@ public class AuthController {
               exceldata.getDatenaissance(),
               exceldata.getEmail(),
 //              exceldata.getPassword(),
-              encoder.encode(exceldata.getPassword()),
+            exceldata.getPassword(),
               null
               );
     }

@@ -14,7 +14,7 @@ ElectionService {
     String delete(Long id);
     List<Election> getElectionsByTypeVoteId(Long typeVoteId);
 
-    //STATUS METHODE
-    String Heurdate();
+  /*  //STATUS METHODE
+    String Heurdate();*/
 
 }

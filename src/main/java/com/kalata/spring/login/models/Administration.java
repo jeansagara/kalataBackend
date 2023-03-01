@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "projetdelois")
@@ -22,12 +23,17 @@ public class Administration {
     private String descrption;
     private LocalDate datefin;
     private LocalDate datedebut;
+
+    private LocalTime heuredebut;
+    private LocalTime heurefin;
+
     private int nbredeselus;
     private int pour;
     private int contre;
     private int neutre;
     private int totalvote;
-    private Boolean status;
+
+    //private Boolean status;
 
 
 

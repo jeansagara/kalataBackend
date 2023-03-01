@@ -55,6 +55,9 @@ public class VoteController {
         return voteService.creerVote(id_candidat, idelection, idutilisateur,latitude,longitude);
     }
 
+
+
+
     // VOTEE POUR UN PROJET DE LOI SELON LES VOIX (Pour, Contre, Contre)
     @PostMapping("/voteprojets/{idAdministration}/{idutilisateur}/{vote}/{latitude}/{longitude}")
     public MessageResponse VoteAdministration(     @PathVariable("idAdministration") Long idAdministration,
@@ -62,12 +65,20 @@ public class VoteController {
                                                    @PathVariable int vote,
                                                    @PathVariable("latitude") Double latitude,
                                                    @PathVariable("longitude") Double longitude){
+
+        if (voteService.aDejaVote(idAdministration, idutilisateur)) {
+            return new MessageResponse("Désolé, vous avez déjà voté pour ce projet de loi.");
+        }
         Vote vp = new Vote();
         vp.setLatitude(latitude);
         vp.setLongitude(longitude);
         vp.setUtilisateurs(idutilisateur);
         return voteService.voteprojetloie(idAdministration,idutilisateur,vote,latitude,longitude);
     }
+
+
+
+
 
 /*    @PostMapping("/voteprojets/{idAdministration}/{idutilisateur}/{vote}")
     public MessageResponse VoteAdministration(     @PathVariable Long idAdministration,
@@ -77,7 +88,29 @@ public class VoteController {
         vp.setUtilisateurs(idutilisateur);
         return voteService.voteprojetloie(idAdministration,idutilisateur,vote);
     }*/
+/*@PostMapping("/voteprojets/{idAdministration}/{idutilisateur}/{vote}/{latitude}/{longitude}")
 
+public MessageResponse VoteAdministrationn(@PathVariable("idAdministration") Long idAdministration,
+                                          @PathVariable("idutilisateur") Utilisateurs idutilisateur,
+                                          @PathVariable int vote,
+                                          @PathVariable("latitude") Double latitude,
+                                          @PathVariable("longitude") Double longitude) {
+    // Vérifier si l'utilisateur a déjà voté pour ce projet de loi
+   if (voteService.aDejaVote(idAdministration, idutilisateur)) {
+        return new MessageResponse("Désolé, vous avez déjà voté pour ce projet de loi.");
+    }
+
+    // Créer un nouveau vote pour ce projet de loi
+    Vote vp = new Vote();
+    vp.setLatitude(latitude);
+    vp.setLongitude(longitude);
+    vp.setUtilisateurs(idutilisateur);
+
+    // Enregistrer le vote dans la base de données
+    voteService.voteprojetloie(idAdministration, idutilisateur, vote, latitude, longitude);
+
+    return new MessageResponse("Votre vote a été enregistré avec succès.");
+}*/
 
 
 

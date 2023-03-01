@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -47,6 +48,8 @@ public class AdministrationController {
                        @RequestParam("description") String description,
                        @Param("datefin") String datefin1,
                        @Param("datedebut") String datedebut1,
+                       @Param("heuredebut") LocalTime heuredebut,
+                       @Param("heurefin") LocalTime heurefin,
                        @RequestParam("nbredeselus") int nbredeselus,
                        @PathVariable Long idadministration) throws IOException {
 
@@ -67,6 +70,8 @@ public class AdministrationController {
         administration.setDescrption(description);
         administration.setDatedebut(datedebut);
         administration.setDatefin(datefin);
+        administration.setHeuredebut(heuredebut);
+        administration.setHeurefin(heurefin);
         administration.setNbredeselus(nbredeselus);
         administration.setPour(0);
         administration.setContre(0);

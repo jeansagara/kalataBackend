@@ -17,4 +17,7 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
    // Optional<Vote> findByUtilisateursAndAdmiNnistration(Utilisateurs idutilisateur, Administration administration);
 
     // Optional<Vote> findByUtilisateursAndAdministration(Utilisateurs idutilisateur, Administration administration);
+
+   // List<Vote> findByIdAdministration_IdAdministrationAndIdUtilisateur(Long idAdministration, Utilisateurs idutilisateur);
+   Optional<Vote> findByAdministrationIdAdministrationAndUtilisateurs(Long administrationId, Utilisateurs utilisateurs);
 }

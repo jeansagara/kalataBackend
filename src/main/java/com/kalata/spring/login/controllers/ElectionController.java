@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -73,8 +74,13 @@ public class ElectionController {
                        @Param("nomelection") String nomelection,
                        @Param("description") String description,
                        @Param("soustitre") String soustitre,
-                       @Param("datefin") String datefin1,
                        @Param("datedebut") String datedebut1,
+                       @Param("datefin") String datefin1,
+
+
+                       @Param("heuredebut") LocalTime heuredebut,
+                       @Param("heurefin") LocalTime heurefin,
+
                        @PathVariable("idtypevote") Long idtypevote) throws IOException {
 
         // Methode mallé
@@ -95,6 +101,9 @@ public class ElectionController {
         election.setSoustitre(soustitre);
         election.setDatedebut(datedebut);
         election.setDatefin(datefin);
+
+        election.setHeuredebut(heuredebut);
+        election.setHeurefin(heurefin);
 
         Type_vote type_vote = type_voteRepository.getReferenceById(idtypevote);
         election.setType_vote(type_vote);

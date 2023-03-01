@@ -56,7 +56,7 @@ public class ElectionServiceImpl implements ElectionService {
     @Override
     public Election save(Election election) {
         election.setNbrvote(0);
-        election.setStatus(true);
+        //election.setStatus(true);
         return electionRepository.save(election);
     }
 
@@ -72,7 +72,7 @@ public class ElectionServiceImpl implements ElectionService {
         query.setParameter("typeVoteId", typeVoteId);
         return query.getResultList();
     }
-
+/*
     //Status heure & date
     @Scheduled(fixedRate = 86400000)
     @Override
@@ -87,5 +87,5 @@ public class ElectionServiceImpl implements ElectionService {
             }
         }
         return "Election close";
-    }
+    }*/
 }

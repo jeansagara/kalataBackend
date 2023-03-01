@@ -41,6 +41,10 @@ public class AdministrationServiceImpl implements AdministrationService {
             tea.setImage(administration.getImage());
             tea.setDatedebut(administration.getDatedebut());
             tea.setDatefin(administration.getDatefin());
+
+            tea.setHeuredebut(administration.getHeuredebut());
+            tea.setHeurefin(administration.getHeurefin());
+
             return administrationRepository.save(tea);
         }).orElseThrow(()->new RuntimeException("Erreur"));
     }
@@ -53,11 +57,11 @@ public class AdministrationServiceImpl implements AdministrationService {
 
     @Override
     public Administration save(Administration administration) {
-        administration.setStatus(true);
+        //administration.setStatus(true);
         return administrationRepository.save(administration);
     }
 
-   //Status
+/*   //Status
     @Scheduled(fixedRate = 86400000)
     @Override
     public String Heurdate(){
@@ -71,5 +75,5 @@ public class AdministrationServiceImpl implements AdministrationService {
             }
         }
         return "Projet clos";
-    }
+    }*/
 }

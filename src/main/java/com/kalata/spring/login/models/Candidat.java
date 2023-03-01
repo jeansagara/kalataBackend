@@ -24,6 +24,15 @@ public class Candidat {
     private String imagecandidat;
     private String imageparti;
     private int voix;
+/*
+
+    // Debut de la fonctionnalité de passage au second tour pour deux candidats ayant le même pourcentage de voix après l'heure de clôture
+    @Column(name = "finaliste")
+    private boolean finaliste = false;
+// fin de la fonctionnalité de passage au second tour pour deux candidats ayant le même pourcentage de voix après l'heure de clôture
+*/
+
+
     private double pourcentage;
 
 
@@ -31,7 +40,7 @@ public class Candidat {
     @ManyToOne
     private Election election;
 
-    public Candidat(String nomcandidat,
+   public Candidat(String nomcandidat,
                     String nomparti) {
         this.nomcandidat=nomcandidat;
         this.nomparti=nomparti;

@@ -29,7 +29,11 @@ public class Type_voteController {
     @PostMapping("/ajouter")
     public Object save(@RequestParam String nom){
         //tjrs empecher de... deux fois
-
+        List<Type_vote> list = type_voteService.afficher();
+        System.out.println(list);
+        if(list.size()>=2){
+            return "l'application n'accepte que deux type de vote soit une ELLECTION ou un VOTE ";
+        }
         Type_vote type_vote = new Type_vote();
         type_vote.setNom(nom);
 

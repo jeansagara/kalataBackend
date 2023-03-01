@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table
@@ -20,12 +21,18 @@ public class Election {
     private Long idelection;
     private String nomelection;
     private String images;
+
     private String description;
     private String soustitre;
-    private LocalDate datefin;
-    private LocalDate datedebut;
 
-    private Boolean status;
+    private LocalDate datedebut;
+    private LocalDate datefin;
+
+    private LocalTime heuredebut;
+    private LocalTime heurefin;
+
+
+    /*private Boolean status;*/
     private int nbrvote;
 
 

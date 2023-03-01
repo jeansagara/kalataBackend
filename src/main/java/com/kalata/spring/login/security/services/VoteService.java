@@ -14,4 +14,6 @@ public interface VoteService  {
     Vote id_vote(Long id);
     MessageResponse creerVote(Long id_candidat, Long idelection, Utilisateurs idutilisateur,Double latitude, Double longetude);
     MessageResponse voteprojetloie(Long idAdministration, Utilisateurs idutilisateur, int vote,Double latitude, Double longetude);
+
+    boolean aDejaVote(Long administrationId, Utilisateurs utilisateurs);
 }

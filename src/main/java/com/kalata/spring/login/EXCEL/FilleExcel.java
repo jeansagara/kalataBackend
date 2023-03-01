@@ -5,6 +5,8 @@ import com.kalata.spring.login.models.ExcelDto;
 import com.kalata.spring.login.models.Utilisateurs;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
@@ -15,7 +17,9 @@ import java.util.List;
 
 public class FilleExcel {
     public static String excelType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-
+    //encoder du password
+    @Autowired
+    PasswordEncoder encoder;
     // Methode qui verifi si le fichier est un fichier Excel
     public static Boolean verifier(MultipartFile file) {
 
